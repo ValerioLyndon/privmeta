@@ -1,10 +1,10 @@
 "use client";
-
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Dropzone from "@/components/Dropzone";
-import { Lock } from "lucide-react";
+import { Lock, Loader2 } from "lucide-react";
 import { useState } from "react";
+import { stripImageMetadata } from "@/utils/stripMetadata";
 
 const Hero = () => {
   return (
@@ -34,12 +34,37 @@ const SeparatorSection = () => {
 };
 
 export default function Home() {
+  const [fileStore, setFileStore] = useState<File[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const handleFilesAccepted = (files: File[]) => {
     console.log("Files received:", files);
     setFileStore(files);
   };
 
-  const [fileStore, setFileStore] = useState<File[]>([]);
+  const handleMetadataRemoval = async () => {
+    setLoading(true);
+    const cleanedFiles = await Promise.all(
+      fileStore.map(async (file) => {
+        if (file.type.startsWith("image/")) {
+          return await stripImageMetadata(file);
+        }
+        return null;
+      })
+    );
+
+    cleanedFiles.forEach((cleanedFile) => {
+      if (cleanedFile) {
+        const url = URL.createObjectURL(cleanedFile);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = cleanedFile.name;
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    });
+    setLoading(false);
+  };
 
   return (
     <div className="w-full flex justify-center">
@@ -48,7 +73,13 @@ export default function Home() {
         <SeparatorSection />
         <Dropzone onFilesAccepted={handleFilesAccepted} />
         <div className="w-full">
-          <Button disabled={fileStore.length <= 0}>Remove metadata</Button>
+          <Button
+            disabled={fileStore.length <= 0 || loading}
+            onClick={handleMetadataRemoval}
+          >
+            {loading && <Loader2 className="animate-spin" />}
+            Remove metadata
+          </Button>
         </div>
       </div>
     </div>
