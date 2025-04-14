@@ -8,15 +8,15 @@ import Image from "next/image";
 
 const Navbar = () => {
   return (
-    <header className="flex justify-center w-full border-b border-[var(--border)]">
-      <nav className="flex justify-between items-center w-full max-w-[var(--max-content-width)] h-14">
+    <header className="sticky flex justify-center w-full border-b border-[var(--border)]">
+      <nav className="flex justify-between items-center w-full max-w-[var(--max-content-width)] px-[var(--space-md)] h-14">
         <div className="flex gap-[var(--space-2xl)] items-center">
           <Image
             src="/PrivMetaLogoLightMode.png"
             alt="PrivMeta Logo"
             width={516}
             height={115}
-            className="w-32 h-auto cursor-pointer dark:hidden"
+            className="w-24 h-auto cursor-pointer dark:hidden"
             onClick={() => {}}
           />
           <Image
