@@ -12,11 +12,19 @@ const Navbar = () => {
       <nav className="flex justify-between items-center w-full max-w-[var(--max-content-width)] h-14">
         <div className="flex gap-[var(--space-2xl)] items-center">
           <Image
-            src="/PrivMetaLogo.png"
+            src="/PrivMetaLogoLightMode.png"
             alt="PrivMeta Logo"
             width={516}
             height={115}
-            className="w-32 h-auto cursor-pointer"
+            className="w-32 h-auto cursor-pointer dark:hidden"
+            onClick={() => {}}
+          />
+          <Image
+            src="/PrivMetaLogoDarkMode.png"
+            alt="PrivMeta Logo"
+            width={516}
+            height={115}
+            className="hidden dark:inline w-32 h-auto cursor-pointer"
             onClick={() => {}}
           />
           <NavMenu />
