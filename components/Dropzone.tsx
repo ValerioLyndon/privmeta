@@ -45,7 +45,7 @@ export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
         onDragLeave={() => setHighlight(false)}
         onDrop={handleDrop}
         className={`flex flex-col items-center justify-center w-full h-96 gap-[var(--space-md)] border-3 border-dashed p-6 rounded-xl cursor-pointer transition-colors ${
-          highlight ? "border-blue-500 bg-blue-50" : "border-gray-300"
+          highlight ? "border-orange-400 bg-blue-50" : "border-gray-300"
         }`}
         onClick={() => document.getElementById("fileInput")?.click()}
       >
@@ -61,7 +61,7 @@ export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
           <p>Drag & drop</p>
           <p>
             or{" "}
-            <span className="text-blue-500 font-bold hover:underline">
+            <span className="text-orange-400 font-bold hover:underline">
               browse
             </span>
           </p>
