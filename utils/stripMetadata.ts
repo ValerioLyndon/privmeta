@@ -1,3 +1,5 @@
+import { PDFDocument } from "pdf-lib";
+
 export async function stripImageMetadata(file: File): Promise<File | null> {
   return new Promise((resolve) => {
     const img = new Image();
@@ -35,4 +37,21 @@ export async function stripImageMetadata(file: File): Promise<File | null> {
 
     img.src = url;
   });
+}
+
+export async function stripPdfMetadata(file: File): Promise<File | null> {
+  const arrayBuffer = await file.arrayBuffer();
+  const pdfDoc = await PDFDocument.load(arrayBuffer);
+
+  pdfDoc.setTitle("");
+  pdfDoc.setAuthor("");
+  pdfDoc.setSubject("");
+  pdfDoc.setKeywords([]);
+  pdfDoc.setProducer("");
+  pdfDoc.setCreator("");
+  pdfDoc.setCreationDate(new Date(0));
+  pdfDoc.setModificationDate(new Date(0));
+
+  const newPdfBytes = await pdfDoc.save();
+  return new File([newPdfBytes], file.name, { type: "application/pdf" });
 }

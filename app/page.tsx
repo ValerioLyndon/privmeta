@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import Dropzone from "@/components/Dropzone";
 import { Lock, Loader2 } from "lucide-react";
 import { useState } from "react";
-import { stripImageMetadata } from "@/utils/stripMetadata";
+import { stripImageMetadata, stripPdfMetadata } from "@/utils/stripMetadata";
 
 const Hero = () => {
   return (
@@ -49,6 +49,10 @@ export default function Home() {
         if (file.type.startsWith("image/")) {
           return await stripImageMetadata(file);
         }
+        if (file.type === "application/pdf") {
+          return await stripPdfMetadata(file);
+        }
+        // Not supported
         return null;
       })
     );
@@ -63,6 +67,7 @@ export default function Home() {
         URL.revokeObjectURL(url);
       }
     });
+
     setLoading(false);
   };
 

@@ -7,12 +7,26 @@ type DropzoneProps = {
   onFilesAccepted: (files: File[]) => void;
 };
 
+const acceptedTypes: Record<string, string[]> = {
+  "image/jpeg": [".jpeg", ".jpg"],
+  "image/png": [".png"],
+  "image/webp": [".webp"],
+  "application/pdf": [".pdf"],
+};
+
+const acceptedMimeTypes = Object.keys(acceptedTypes);
+
 export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
   const [highlight, setHighlight] = useState(false);
   const [fileNames, setFileNames] = useState<string[]>([]);
 
-  const handleFiles = (files: FileList) => {
-    const fileArray = Array.from(files);
+  const isAcceptedType = (file: File) => acceptedMimeTypes.includes(file.type);
+
+  const handleFiles = (files: FileList | File[]) => {
+    const fileArray = Array.from(files).filter(isAcceptedType);
+
+    if (fileArray.length === 0) return;
+
     setFileNames(fileArray.map((file) => file.name));
     onFilesAccepted(fileArray);
   };
@@ -53,6 +67,7 @@ export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
           id="fileInput"
           type="file"
           multiple
+          accept={acceptedMimeTypes.join(",")}
           onChange={handleChange}
           className="hidden"
         />
