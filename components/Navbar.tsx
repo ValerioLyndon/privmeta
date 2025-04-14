@@ -1,8 +1,11 @@
+import { ThemeToggle } from "./ThemeToggle";
 
 const Navbar = () => {
   return (
     <header className="flex justify-center w-full">
-      <nav className="w-full max-w-[var(--max-content-width)] bg-blue-400 h-16"></nav>
+      <nav className="w-full max-w-[var(--max-content-width)] h-16">
+        <ThemeToggle />
+      </nav>
     </header>
   );
 };
