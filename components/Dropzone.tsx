@@ -7,6 +7,7 @@ import { Button } from "./ui/button";
 type DropzoneProps = {
   fileStore: File[];
   onFilesAccepted: (files: File[]) => void;
+  onFileRemove: (index: number) => void;
 };
 
 const acceptedTypes: Record<string, string[]> = {
@@ -24,7 +25,7 @@ const isAcceptedSize = (file: File) => file.size <= MAX_FILE_SIZE_BYTES;
 
 const acceptedMimeTypes = Object.keys(acceptedTypes);
 
-export default function Dropzone({ fileStore, onFilesAccepted }: DropzoneProps) {
+export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove }: DropzoneProps) {
   const [highlight, setHighlight] = useState(false);
 
   const isAcceptedType = (file: File) => acceptedMimeTypes.includes(file.type);
@@ -107,6 +108,7 @@ export default function Dropzone({ fileStore, onFilesAccepted }: DropzoneProps) 
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
+                    onFileRemove(index)
                   }}
                   variant="ghost"
                   size="icon"

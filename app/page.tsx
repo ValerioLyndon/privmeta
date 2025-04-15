@@ -42,6 +42,10 @@ export default function Home() {
     setFileStore(files);
   };
 
+  const handleFileRemoved = (index: number) => {
+    setFileStore((fileStore) => fileStore.splice(index, 1))
+  }
+
   const handleMetadataRemoval = async () => {
     setLoading(true);
     const cleanedFiles = await Promise.all(
@@ -76,7 +80,7 @@ export default function Home() {
       <div className="w-full max-w-[var(--max-content-width)] px-[var(--space-md)] flex flex-col gap-[var(--space-2xl)] h-full items-center py-[var(--space-2xl)]">
         <Hero />
         <SeparatorSection />
-        <Dropzone fileStore={fileStore} onFilesAccepted={handleFilesAccepted} />
+        <Dropzone fileStore={fileStore} onFilesAccepted={handleFilesAccepted} onFileRemove={handleFileRemoved} />
         <div className="w-full flex gap-[var(--space-md)]">
           <Button
             disabled={fileStore.length <= 0 || loading}
