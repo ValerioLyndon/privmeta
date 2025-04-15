@@ -14,6 +14,11 @@ const acceptedTypes: Record<string, string[]> = {
   "application/pdf": [".pdf"],
 };
 
+const MAX_FILE_SIZE_MB = 10;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+
+const isAcceptedSize = (file: File) => file.size <= MAX_FILE_SIZE_BYTES;
+
 const acceptedMimeTypes = Object.keys(acceptedTypes);
 
 export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
@@ -23,7 +28,14 @@ export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
   const isAcceptedType = (file: File) => acceptedMimeTypes.includes(file.type);
 
   const handleFiles = (files: FileList | File[]) => {
-    const fileArray = Array.from(files).filter(isAcceptedType);
+    const fileArray = Array.from(files).filter(
+      (file) => isAcceptedType(file) && isAcceptedSize(file)
+    );
+
+    const rejectedFiles = Array.from(files).filter(
+      (file) => !isAcceptedType(file) || !isAcceptedSize(file)
+    );
+    console.log("Rejected files:", rejectedFiles);
 
     if (fileArray.length === 0) return;
 
@@ -58,9 +70,8 @@ export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
         }}
         onDragLeave={() => setHighlight(false)}
         onDrop={handleDrop}
-        className={`flex flex-col items-center justify-center w-full h-96 gap-[var(--space-md)] border-3 border-dashed p-6 rounded-xl cursor-pointer transition-colors ${
-          highlight ? "border-orange-400 bg-blue-50" : "border-muted-foreground/50"
-        }`}
+        className={`flex flex-col items-center justify-center w-full h-96 gap-[var(--space-md)] border-3 border-dashed p-6 rounded-xl cursor-pointer transition-colors ${highlight ? "border-orange-400 bg-blue-50" : "border-muted-foreground/50"
+          }`}
         onClick={() => document.getElementById("fileInput")?.click()}
       >
         <input
