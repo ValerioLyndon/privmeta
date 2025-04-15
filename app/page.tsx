@@ -76,14 +76,21 @@ export default function Home() {
       <div className="w-full max-w-[var(--max-content-width)] px-[var(--space-md)] flex flex-col gap-[var(--space-2xl)] h-full items-center py-[var(--space-2xl)]">
         <Hero />
         <SeparatorSection />
-        <Dropzone onFilesAccepted={handleFilesAccepted} />
-        <div className="w-full">
+        <Dropzone fileStore={fileStore} onFilesAccepted={handleFilesAccepted} />
+        <div className="w-full flex gap-[var(--space-md)]">
           <Button
             disabled={fileStore.length <= 0 || loading}
             onClick={handleMetadataRemoval}
           >
             {loading && <Loader2 className="animate-spin" />}
             Remove metadata
+          </Button>
+          <Button
+            disabled={fileStore.length <= 0 || loading}
+            onClick={() => { setFileStore([]) }}
+            variant="ghost"
+          >
+            Clear all
           </Button>
         </div>
       </div>

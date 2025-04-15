@@ -1,9 +1,11 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { File } from "lucide-react";
+import { File, X } from "lucide-react";
+import { Button } from "./ui/button";
 
 type DropzoneProps = {
+  fileStore: File[];
   onFilesAccepted: (files: File[]) => void;
 };
 
@@ -22,9 +24,8 @@ const isAcceptedSize = (file: File) => file.size <= MAX_FILE_SIZE_BYTES;
 
 const acceptedMimeTypes = Object.keys(acceptedTypes);
 
-export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
+export default function Dropzone({ fileStore, onFilesAccepted }: DropzoneProps) {
   const [highlight, setHighlight] = useState(false);
-  const [fileNames, setFileNames] = useState<string[]>([]);
 
   const isAcceptedType = (file: File) => acceptedMimeTypes.includes(file.type);
 
@@ -39,7 +40,6 @@ export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
 
     if (fileArray.length === 0) return;
 
-    setFileNames(fileArray.map((file) => file.name));
     onFilesAccepted(fileArray);
   };
 
@@ -70,7 +70,7 @@ export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
         }}
         onDragLeave={() => setHighlight(false)}
         onDrop={handleDrop}
-        className={`flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl cursor-pointer transition-colors ${highlight ? "border-orange-400 bg-blue-50" : "border-muted-foreground/50"
+        className={`relative flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl cursor-pointer transition-colors ${highlight ? "border-orange-400 bg-blue-50" : "border-muted-foreground/50"
           }`}
         onClick={() => document.getElementById("fileInput")?.click()}
       >
@@ -93,15 +93,31 @@ export default function Dropzone({ onFilesAccepted }: DropzoneProps) {
           </p>
         </div>
 
-        {fileNames.length > 0 && (
-          <ul className="text-left text-sm text-muted-foreground">
-            {fileNames.map((name, index) => (
-              <li key={index} className="truncate">
-                📄 {name}
+        <p className="text-muted-foreground">(Accepted types: .jpeg, .png, .pdf, .webp)</p>
+
+        {fileStore.length > 0 && (
+          <ul className="text-left text-sm font-bold text-muted-foreground">
+            {fileStore.map((file, index) => (
+              <li
+                key={index}
+                className="truncate flex items-center gap-[var(--space-sm)]"
+              >
+                <span className="truncate mr-[var(--space-sm)]">📄</span>
+                <p className="truncate">{file.name}</p>
+                <Button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  variant="ghost"
+                  size="icon"
+                >
+                  <X />
+                </Button>
               </li>
             ))}
           </ul>
         )}
+        <p className="absolute text-sm text-muted-foreground right-[var(--space-xl)] bottom-[var(--space-md)]">{`${fileStore.length}/${MAX_FILE_COUNT}`}</p>
       </div>
     </div>
   );
