@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { File, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { MAX_FILE_SIZE_BYTES, MAX_FILE_COUNT } from "@/utils/constants";
@@ -24,6 +24,7 @@ const acceptedMimeTypes = Object.keys(acceptedTypes);
 
 export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove }: DropzoneProps) {
   const [highlight, setHighlight] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isAcceptedType = (file: File) => acceptedMimeTypes.includes(file.type);
 
@@ -33,12 +34,15 @@ export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove }: D
     );
 
     const totalFiles = Math.min(MAX_FILE_COUNT, filteredFiles.length);
-
     const fileArray = filteredFiles.slice(0, totalFiles);
 
     if (fileArray.length === 0) return;
 
     onFilesAccepted(fileArray);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   const handleDrop = useCallback(
@@ -48,6 +52,10 @@ export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove }: D
       if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         handleFiles(e.dataTransfer.files);
         e.dataTransfer.clearData();
+
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
       }
     },
     [onFilesAccepted]
@@ -56,6 +64,7 @@ export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove }: D
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       handleFiles(e.target.files);
+      e.target.value = "";
     }
   };
 
@@ -70,9 +79,10 @@ export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove }: D
         onDrop={handleDrop}
         className={`relative flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl cursor-pointer transition-colors ${highlight ? "border-orange-400 bg-blue-50" : "border-muted-foreground/50"
           }`}
-        onClick={() => document.getElementById("fileInput")?.click()}
+        onClick={() => fileInputRef.current?.click()}
       >
         <input
+          ref={fileInputRef}
           id="fileInput"
           type="file"
           multiple
@@ -105,7 +115,7 @@ export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove }: D
                 <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    onFileRemove(index)
+                    onFileRemove(index);
                   }}
                   variant="ghost"
                   size="icon"
@@ -116,7 +126,9 @@ export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove }: D
             ))}
           </ul>
         )}
-        <p className="absolute text-sm text-muted-foreground right-[var(--space-xl)] bottom-[var(--space-md)]">{`${fileStore.length}/${MAX_FILE_COUNT}`}</p>
+        <p className="absolute text-sm text-muted-foreground right-[var(--space-xl)] bottom-[var(--space-md)]">
+          {`${fileStore.length}/${MAX_FILE_COUNT}`}
+        </p>
       </div>
     </div>
   );
