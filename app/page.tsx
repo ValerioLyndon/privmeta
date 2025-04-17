@@ -9,6 +9,18 @@ import { Lock, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { stripImageMetadata, stripPdfMetadata } from "@/utils/stripMetadata";
 import { MAX_FILE_COUNT } from "@/utils/constants";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 const Hero = () => {
   return (
@@ -99,6 +111,39 @@ export default function Home() {
     setLoading(false);
   };
 
+  const ClearAllButton = () => {
+    return (
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            disabled={fileStore.length <= 0 || loading}
+            variant="ghost"
+          >
+            Clear all
+          </Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Clear all files?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently remove all files from your current selection.
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => { setFileStore([]) }}
+              className="bg-destructive hover:bg-destructive/90"
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    );
+  }
+
   return (
     <div className="w-full flex justify-center">
       <div className="w-full max-w-[var(--max-content-width)] px-[var(--space-md)] flex flex-col gap-[var(--space-2xl)] h-full items-center py-[var(--space-2xl)]">
@@ -114,13 +159,7 @@ export default function Home() {
             {loading && <Loader2 className="animate-spin" />}
             Remove metadata
           </Button>
-          <Button
-            disabled={fileStore.length <= 0 || loading}
-            onClick={() => { setFileStore([]) }}
-            variant="ghost"
-          >
-            Clear all
-          </Button>
+          <ClearAllButton />
         </div>
       </div>
     </div>
