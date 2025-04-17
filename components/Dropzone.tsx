@@ -108,9 +108,9 @@ export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove }: D
             {fileStore.map((file, index) => (
               <li
                 key={index}
-                className="truncate flex items-center gap-[var(--space-sm)]"
+                className="truncate flex items-center gap-[var(--space-sm)"
               >
-                <span className="truncate mr-[var(--space-sm)]">📄</span>
+                <File className="mr-[var(--space-sm)]" size={20} strokeWidth={2}/>
                 <p className="truncate">{file.name}</p>
                 <Button
                   onClick={(e) => {
