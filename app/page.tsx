@@ -19,8 +19,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import JSZip from "jszip";
 
 type ErrorType = "file_count" | "unsupported_format" | "file_too_large" | "general" | null;
+
+const renameWithSuffix = (file: File, suffix = "_cleaned"): string => {
+  const nameParts = file.name.split(".");
+  if (nameParts.length < 2) return `${file.name}${suffix}`;
+  const ext = nameParts.pop();
+  const base = nameParts.join(".");
+  return `${base}${suffix}.${ext}`;
+};
 
 const Hero = () => (
   <div className="flex flex-col gap-[var(--space-lg)] w-full">
@@ -97,30 +106,51 @@ export default function Home() {
     setError(null);
 
     try {
-      const cleanedFiles = await Promise.all(
-        fileStore.map(async (file) => {
-          if (file.type.startsWith("image/")) {
-            return await stripImageMetadata(file);
-          }
-          if (file.type === "application/pdf") {
-            return await stripPdfMetadata(file);
-          }
-          throw new Error("Unsupported file type");
-        })
-      );
+      const cleanedFiles: File[] = [];
 
-      cleanedFiles.forEach((cleanedFile) => {
-        if (cleanedFile) {
-          const url = URL.createObjectURL(cleanedFile);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = cleanedFile.name;
-          a.click();
-          URL.revokeObjectURL(url);
+      for (const file of fileStore) {
+        let cleaned: File | null = null;
+
+        if (file.type.startsWith("image/")) {
+          cleaned = await stripImageMetadata(file);
+        } else if (file.type === "application/pdf") {
+          cleaned = await stripPdfMetadata(file);
         }
-      });
+
+        if (cleaned) {
+          const renamed = new File([cleaned], renameWithSuffix(file), {
+            type: cleaned.type,
+          });
+          cleanedFiles.push(renamed);
+        }
+      }
+
+      if (cleanedFiles.length === 1) {
+        // Single file
+        const file = cleanedFiles[0];
+        const url = URL.createObjectURL(file);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = file.name;
+        a.click();
+        URL.revokeObjectURL(url);
+      } else if (cleanedFiles.length > 1) {
+        // ZIP
+        const zip = new JSZip();
+        cleanedFiles.forEach((file) => {
+          zip.file(file.name, file);
+        });
+
+        const zipBlob = await zip.generateAsync({ type: "blob" });
+        const url = URL.createObjectURL(zipBlob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "cleaned_files.zip";
+        a.click();
+        URL.revokeObjectURL(url);
+      }
     } catch (error) {
-      console.error("Metadata removal failed:", error);
+      console.error("Error during metadata removal:", error);
       setError({ type: "general" });
     } finally {
       setLoading(false);
