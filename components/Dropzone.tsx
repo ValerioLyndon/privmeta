@@ -3,6 +3,7 @@
 import React, { useCallback, useState } from "react";
 import { File, X } from "lucide-react";
 import { Button } from "./ui/button";
+import { MAX_FILE_SIZE_BYTES, MAX_FILE_COUNT } from "@/utils/constants";
 
 type DropzoneProps = {
   fileStore: File[];
@@ -16,10 +17,6 @@ const acceptedTypes: Record<string, string[]> = {
   "image/webp": [".webp"],
   "application/pdf": [".pdf"],
 };
-
-const MAX_FILE_COUNT = 10;
-const MAX_FILE_SIZE_MB = 10;
-const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 const isAcceptedSize = (file: File) => file.size <= MAX_FILE_SIZE_BYTES;
 

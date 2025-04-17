@@ -6,6 +6,7 @@ import Dropzone from "@/components/Dropzone";
 import { Lock, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { stripImageMetadata, stripPdfMetadata } from "@/utils/stripMetadata";
+import { MAX_FILE_COUNT } from "@/utils/constants";
 
 const Hero = () => {
   return (
@@ -40,9 +41,11 @@ export default function Home() {
   const [fileStore, setFileStore] = useState<File[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const handleFilesAccepted = (files: File[]) => {
-    console.log("Files received:", files);
-    setFileStore(files);
+  const handleFilesAccepted = (newFiles: File[]) => {
+    setFileStore((prevFiles) => {
+      const total = [...prevFiles, ...newFiles].slice(0, MAX_FILE_COUNT);
+      return total;
+    });
   };
 
   const handleFileRemoved = (index: number) => {
