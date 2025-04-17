@@ -54,20 +54,24 @@ const FileCountAlert = () => {
 export default function Home() {
   const [fileStore, setFileStore] = useState<File[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [fileCountError, setFileCountError] = useState<boolean>(false);
 
   const handleFilesAccepted = (newFiles: File[]) => {
     setFileStore((prevFiles) => {
+      setFileCountError(prevFiles.length + newFiles.length > MAX_FILE_COUNT);
       const total = [...prevFiles, ...newFiles].slice(0, MAX_FILE_COUNT);
       return total;
     });
   };
 
   const handleFileRemoved = (index: number) => {
-    setFileStore((fileStore) => fileStore.splice(index, 1))
+    setFileCountError(false);
+    setFileStore((prevFiles) => prevFiles.filter((_, i) => i !== index));
   }
 
   const handleMetadataRemoval = async () => {
     setLoading(true);
+    setFileCountError(false);
     const cleanedFiles = await Promise.all(
       fileStore.map(async (file) => {
         if (file.type.startsWith("image/")) {
@@ -101,7 +105,7 @@ export default function Home() {
         <Hero />
         <SeparatorSection />
         <Dropzone fileStore={fileStore} onFilesAccepted={handleFilesAccepted} onFileRemove={handleFileRemoved} />
-        <FileCountAlert />
+        {fileCountError && <FileCountAlert />}
         <div className="w-full flex gap-[var(--space-md)]">
           <Button
             disabled={fileStore.length <= 0 || loading}
