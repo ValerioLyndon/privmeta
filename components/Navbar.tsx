@@ -8,7 +8,7 @@ import Image from "next/image";
 
 const Navbar = () => {
   return (
-    <header className="sticky top-0 z-50 flex justify-center w-full border-b border-[var(--border)] backdrop-blur">
+    <header className="sticky top-0 z-50 flex justify-center w-full border-b border-[var(--border)] backdrop-blur-lg">
       <nav className="flex justify-between items-center w-full max-w-[var(--max-content-width)] px-[var(--space-md)] h-14">
         <div className="flex gap-[var(--space-2xl)] items-center">
           <Image
