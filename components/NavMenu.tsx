@@ -106,11 +106,11 @@ export function NavMenu() {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink asChild>
+            <Link href="/docs" className={navigationMenuTriggerStyle()}>
               Documentation
-            </NavigationMenuLink>
-          </Link>
+            </Link>
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
