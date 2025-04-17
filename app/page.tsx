@@ -1,6 +1,8 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { AlertCircle } from "lucide-react"
 import { Badge } from "@/components/ui/badge";
 import Dropzone from "@/components/Dropzone";
 import { Lock, Loader2 } from "lucide-react";
@@ -36,6 +38,18 @@ const SeparatorSection = () => {
     </div>
   );
 };
+
+const FileCountAlert = () => {
+  return (
+    <Alert variant="destructive">
+      <AlertCircle className="h-4 w-4" />
+      <AlertTitle>Too many files</AlertTitle>
+      <AlertDescription>
+        {`You can only upload up to ${MAX_FILE_COUNT} files at a time. Please remove some files and try again.`}
+      </AlertDescription>
+    </Alert>
+  )
+}
 
 export default function Home() {
   const [fileStore, setFileStore] = useState<File[]>([]);
@@ -87,6 +101,7 @@ export default function Home() {
         <Hero />
         <SeparatorSection />
         <Dropzone fileStore={fileStore} onFilesAccepted={handleFilesAccepted} onFileRemove={handleFileRemoved} />
+        <FileCountAlert />
         <div className="w-full flex gap-[var(--space-md)]">
           <Button
             disabled={fileStore.length <= 0 || loading}
