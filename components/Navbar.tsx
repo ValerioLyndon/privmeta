@@ -24,7 +24,7 @@ const Navbar = () => {
             alt="PrivMeta Logo"
             width={516}
             height={115}
-            className="hidden dark:inline w-32 h-auto cursor-pointer"
+            className="hidden dark:inline w-24 h-auto cursor-pointer"
             onClick={() => {}}
           />
           <NavMenu />
