@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import Dropzone from "@/components/Dropzone";
 import { useState, useEffect } from "react";
 import { stripImageMetadata, stripPdfMetadata } from "@/utils/stripMetadata";
-import { MAX_FILE_COUNT } from "@/utils/constants";
+import { MAX_FILE_COUNT, MAX_FILE_SIZE_MB } from "@/utils/constants";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,7 +45,7 @@ const showErrorToast = (type: ErrorType) => {
     },
     file_too_large: {
       title: "File too large",
-      description: "Each file must be under 10MB.",
+      description: `Each file must be under ${MAX_FILE_SIZE_MB}MB.`,
     },
     general: {
       title: "Something went wrong",
@@ -60,6 +60,7 @@ const showErrorToast = (type: ErrorType) => {
   show(title, {
     description,
     duration: 5000,
+    dismissible: true,
   });
 };
 
