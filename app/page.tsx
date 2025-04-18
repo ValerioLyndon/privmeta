@@ -1,8 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle, Lock, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge";
 import Dropzone from "@/components/Dropzone";
 import { useState, useEffect } from "react";
@@ -18,11 +16,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
-import { toast } from "sonner"
+} from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
+import { Loader2, Lock } from "lucide-react";
 import JSZip from "jszip";
 
-type ErrorType = "file_count" | "unsupported_format" | "file_too_large" | "general" | null;
+type ErrorType = "file_count" | "unsupported_format" | "file_too_large" | "general";
 
 const renameWithSuffix = (file: File, suffix = "_cleaned"): string => {
   const nameParts = file.name.split(".");
@@ -30,6 +29,38 @@ const renameWithSuffix = (file: File, suffix = "_cleaned"): string => {
   const ext = nameParts.pop();
   const base = nameParts.join(".");
   return `${base}${suffix}.${ext}`;
+};
+
+const showErrorToast = (type: ErrorType) => {
+  const warnings: ErrorType[] = ["file_count", "unsupported_format", "file_too_large"];
+
+  const messages = {
+    file_count: {
+      title: "Too many files",
+      description: `You can only upload up to ${MAX_FILE_COUNT} files.`,
+    },
+    unsupported_format: {
+      title: "Unsupported file format",
+      description: "Only .jpeg, .png, .webp, and .pdf files are supported.",
+    },
+    file_too_large: {
+      title: "File too large",
+      description: "Each file must be under 10MB.",
+    },
+    general: {
+      title: "Something went wrong",
+      description: "An error occurred while processing your files.",
+    },
+  };
+
+  const { title, description } = messages[type];
+
+  const show = warnings.includes(type) ? toast.warning : toast.error;
+
+  show(title, {
+    description,
+    duration: 5000,
+  });
 };
 
 const Hero = () => (
@@ -53,57 +84,26 @@ const Hero = () => (
 
 const SeparatorSection = () => <div className="w-full"><Separator /></div>;
 
-const ErrorAlert = ({ type }: { type: ErrorType }) => {
-  if (!type) return null;
-
-  const messages = {
-    file_count: {
-      title: "Too many files",
-      description: `You can only upload up to ${MAX_FILE_COUNT} files at a time.`,
-    },
-    unsupported_format: {
-      title: "Unsupported file format",
-      description: "One or more files are not in a supported format (.jpeg, .png, .webp, .pdf).",
-    },
-    file_too_large: {
-      title: "File too large",
-      description: "One or more files exceed the maximum size limit.",
-    },
-    general: {
-      title: "Something went wrong",
-      description: "An error occurred while processing your files. Please try again.",
-    }
-
-  };
-
-  return (
-    <Alert variant="destructive">
-      <AlertCircle className="h-4 w-4" />
-      <AlertTitle>{messages[type].title}</AlertTitle>
-      <AlertDescription>{messages[type].description}</AlertDescription>
-    </Alert>
-  );
-};
-
 export default function Home() {
   const [fileStore, setFileStore] = useState<File[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<{ type: ErrorType } | null>(null);
 
   const handleFilesAccepted = (newFiles: File[]) => {
     const totalCount = fileStore.length + newFiles.length;
-    setError(totalCount > MAX_FILE_COUNT ? { type: "file_count" } : null)
+    if (totalCount > MAX_FILE_COUNT) {
+      showErrorToast("file_count");
+      return;
+    }
+
     setFileStore((prevFiles) => [...prevFiles, ...newFiles].slice(0, MAX_FILE_COUNT));
   };
 
   const handleFileRemoved = (index: number) => {
-    setError(null);
     setFileStore((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
   const handleMetadataRemoval = async () => {
     setLoading(true);
-    setError(null);
 
     try {
       const cleanedFiles: File[] = [];
@@ -115,6 +115,9 @@ export default function Home() {
           cleaned = await stripImageMetadata(file);
         } else if (file.type === "application/pdf") {
           cleaned = await stripPdfMetadata(file);
+        } else {
+          showErrorToast("unsupported_format");
+          continue;
         }
 
         if (cleaned) {
@@ -126,7 +129,6 @@ export default function Home() {
       }
 
       if (cleanedFiles.length === 1) {
-        // Single file
         const file = cleanedFiles[0];
         const url = URL.createObjectURL(file);
         const a = document.createElement("a");
@@ -135,12 +137,8 @@ export default function Home() {
         a.click();
         URL.revokeObjectURL(url);
       } else if (cleanedFiles.length > 1) {
-        // ZIP
         const zip = new JSZip();
-        cleanedFiles.forEach((file) => {
-          zip.file(file.name, file);
-        });
-
+        cleanedFiles.forEach((file) => zip.file(file.name, file));
         const zipBlob = await zip.generateAsync({ type: "blob" });
         const url = URL.createObjectURL(zipBlob);
         const a = document.createElement("a");
@@ -149,15 +147,15 @@ export default function Home() {
         a.click();
         URL.revokeObjectURL(url);
       }
+
       toast.success("Download ready");
     } catch (error) {
       console.error("Error during metadata removal:", error);
-      setError({ type: "general" });
+      showErrorToast("general");
     } finally {
       setLoading(false);
     }
   };
-
 
   const ClearAllButton = () => (
     <AlertDialog>
@@ -177,10 +175,7 @@ export default function Home() {
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={() => {
-              setError(null);
-              setFileStore([]);
-            }}
+            onClick={() => setFileStore([])}
             className="bg-destructive hover:bg-destructive/90"
           >
             Continue
@@ -192,11 +187,10 @@ export default function Home() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      toast.info("Works offline", {
+      toast.info("You can safely disable your internet", {
         id: "offline-mode",
         duration: 10000,
-        description:
-          "You can safely disable your internet — this app runs entirely in your browser and never uploads your files.",
+        description: "This app runs entirely in your browser and never uploads your files.",
         action: {
           label: "Got it",
           onClick: () => { },
@@ -215,9 +209,8 @@ export default function Home() {
           fileStore={fileStore}
           onFilesAccepted={handleFilesAccepted}
           onFileRemove={handleFileRemoved}
-          onError={(type: ErrorType) => setError({ type })}
+          onError={(type: ErrorType) => showErrorToast(type)}
         />
-        <ErrorAlert type={error?.type ?? null} />
         <div className="w-full flex gap-[var(--space-md)]">
           <Button
             disabled={fileStore.length <= 0 || loading}
