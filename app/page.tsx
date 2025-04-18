@@ -5,7 +5,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, Lock, Loader2 } from "lucide-react"
 import { Badge } from "@/components/ui/badge";
 import Dropzone from "@/components/Dropzone";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { stripImageMetadata, stripPdfMetadata } from "@/utils/stripMetadata";
 import { MAX_FILE_COUNT } from "@/utils/constants";
 import {
@@ -19,6 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { toast } from "sonner"
 import JSZip from "jszip";
 
 type ErrorType = "file_count" | "unsupported_format" | "file_too_large" | "general" | null;
@@ -45,6 +46,7 @@ const Hero = () => (
       <Badge>Private</Badge>
       <Badge>Free</Badge>
       <Badge>Open source</Badge>
+      <Badge>Works offline</Badge>
     </div>
   </div>
 );
@@ -87,8 +89,6 @@ export default function Home() {
   const [fileStore, setFileStore] = useState<File[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<{ type: ErrorType } | null>(null);
-
-  console.log(error)
 
   const handleFilesAccepted = (newFiles: File[]) => {
     const totalCount = fileStore.length + newFiles.length;
@@ -149,6 +149,7 @@ export default function Home() {
         a.click();
         URL.revokeObjectURL(url);
       }
+      toast.success("Download ready");
     } catch (error) {
       console.error("Error during metadata removal:", error);
       setError({ type: "general" });
@@ -188,6 +189,22 @@ export default function Home() {
       </AlertDialogContent>
     </AlertDialog>
   );
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      toast.info("Works offline", {
+        id: "offline-mode",
+        duration: 10000,
+        description:
+          "You can safely disable your internet — this app runs entirely in your browser and never uploads your files.",
+        action: {
+          label: "Got it",
+          onClick: () => { },
+        },
+      });
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, []);
 
   return (
     <div className="w-full flex justify-center">
