@@ -86,7 +86,7 @@ export default function Dropzone({
         onClick={() => fileInputRef.current?.click()}
         className={`relative flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl cursor-pointer transition-colors ${
           highlight
-            ? "border-orange-400 bg-blue-50"
+            ? "border-[var(--dropzone-primary)] bg-blue-50"
             : "border-muted-foreground/50"
         }`}
       >
@@ -103,7 +103,7 @@ export default function Dropzone({
           <p>Drag & drop</p>
           <p>
             or{" "}
-            <span className="text-orange-400 font-bold hover:underline">
+            <span className="text-[var(--dropzone-primary)] font-bold hover:underline">
               browse
             </span>
           </p>
