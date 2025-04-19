@@ -18,10 +18,14 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Loader2, Lock } from "lucide-react";
+import { Loader2, Lock, WifiOff } from "lucide-react";
 import JSZip from "jszip";
 
-type ErrorType = "file_count" | "unsupported_format" | "file_too_large" | "general";
+type ErrorType =
+  | "file_count"
+  | "unsupported_format"
+  | "file_too_large"
+  | "general";
 
 const renameWithSuffix = (file: File, suffix = "_cleaned"): string => {
   const nameParts = file.name.split(".");
@@ -32,7 +36,11 @@ const renameWithSuffix = (file: File, suffix = "_cleaned"): string => {
 };
 
 const showErrorToast = (type: ErrorType) => {
-  const warnings: ErrorType[] = ["file_count", "unsupported_format", "file_too_large"];
+  const warnings: ErrorType[] = [
+    "file_count",
+    "unsupported_format",
+    "file_too_large",
+  ];
 
   const messages = {
     file_count: {
@@ -83,7 +91,11 @@ const Hero = () => (
   </div>
 );
 
-const SeparatorSection = () => <div className="w-full"><Separator /></div>;
+const SeparatorSection = () => (
+  <div className="w-full">
+    <Separator />
+  </div>
+);
 
 export default function Home() {
   const [fileStore, setFileStore] = useState<File[]>([]);
@@ -96,7 +108,9 @@ export default function Home() {
       return;
     }
 
-    setFileStore((prevFiles) => [...prevFiles, ...newFiles].slice(0, MAX_FILE_COUNT));
+    setFileStore((prevFiles) =>
+      [...prevFiles, ...newFiles].slice(0, MAX_FILE_COUNT)
+    );
   };
 
   const handleFileRemoved = (index: number) => {
@@ -191,10 +205,11 @@ export default function Home() {
       toast.info("You can safely disable your internet", {
         id: "offline-mode",
         duration: 10000,
-        description: "This app runs entirely in your browser and never uploads your files.",
+        description:
+          "This app runs entirely in your browser and never uploads your files.",
         action: {
           label: "Got it",
-          onClick: () => { },
+          onClick: () => {},
         },
       });
     }, 1000);
@@ -221,6 +236,16 @@ export default function Home() {
             Remove metadata
           </Button>
           <ClearAllButton />
+        </div>
+        <SeparatorSection />
+        <div className="flex w-full gap-[var(--space-lg)] items-center">
+          <WifiOff size={32} strokeWidth={2}/>
+          <div>
+            <h3 className="font-bold">If you are reading this...</h3>
+            <p className="text-sm text-muted-foreground">
+              You can safely disable your interenet - Your files never leave your computer or touch a server.
+            </p>
+          </div>
         </div>
       </div>
     </div>
