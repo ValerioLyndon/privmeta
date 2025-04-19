@@ -3,7 +3,7 @@
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { NavMenu } from "./NavMenu";
-import { GitBranch } from "lucide-react";
+import { Code } from "lucide-react";
 import Image from "next/image";
 
 const Navbar = () => {
@@ -31,7 +31,7 @@ const Navbar = () => {
         </div>
         <div className="flex gap-[var(--space-md)]">
           <Button variant="ghost" size="icon">
-            <GitBranch className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+            <Code className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
           </Button>
           <ThemeToggle />
         </div>

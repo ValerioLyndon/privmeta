@@ -135,8 +135,8 @@ const DisableInternetSection = ({ loading }: { loading: boolean }) => {
           <div>
             <h3 className="font-bold">If you are reading this...</h3>
             <p className="text-sm text-muted-foreground">
-              You can safely disable your internet — your files never leave your
-              computer or touch a server.
+              You can safely disable your internet — all files are processed
+              in-browser and never touch a server.
             </p>
           </div>
         </div>
@@ -162,7 +162,7 @@ export default function Home() {
           onClick: () => {},
         },
       });
-    }, 1000);
+    }, 2000);
 
     const loadingTimeout = setTimeout(() => setLoading(false), 1000);
 
@@ -286,16 +286,23 @@ export default function Home() {
           onFileRemove={handleFileRemoved}
           onError={(type: ErrorType) => showErrorToast(type)}
         />
-        <div className="w-full flex gap-[var(--space-md)]">
-          <Button
-            disabled={fileStore.length <= 0 || processing}
-            onClick={handleMetadataRemoval}
-          >
-            {processing && <Loader2 className="animate-spin" />}
-            Remove metadata
-          </Button>
-          <ClearAllButton />
-        </div>
+        {loading ? (
+          <div className="w-full flex gap-[var(--space-md)]">
+            <Skeleton className="h-10 w-40" />
+            <Skeleton className="h-10 w-24" />
+          </div>
+        ) : (
+          <div className="w-full flex gap-[var(--space-md)]">
+            <Button
+              disabled={fileStore.length <= 0 || processing}
+              onClick={handleMetadataRemoval}
+            >
+              {processing && <Loader2 className="animate-spin mr-2" />}
+              Remove metadata
+            </Button>
+            <ClearAllButton />
+          </div>
+        )}
         <SeparatorSection />
         <DisableInternetSection loading={loading} />
       </div>
