@@ -111,6 +111,9 @@ export default function Home() {
     setFileStore((prevFiles) =>
       [...prevFiles, ...newFiles].slice(0, MAX_FILE_COUNT)
     );
+    toast.success(
+      newFiles.length <= 1 ? "1 File queued" : `${newFiles.length} files queued`
+    );
   };
 
   const handleFileRemoved = (index: number) => {
@@ -238,12 +241,13 @@ export default function Home() {
           <ClearAllButton />
         </div>
         <SeparatorSection />
-        <div className="flex w-full gap-[var(--space-lg)] items-center">
-          <WifiOff size={32} strokeWidth={2}/>
+        <div className="flex w-full gap-[var(--space-lg)] items-center bg-[var(--accent-secondary)] p-[var(--space-lg)] rounded-md">
+          <WifiOff size={32} strokeWidth={2} />
           <div>
             <h3 className="font-bold">If you are reading this...</h3>
             <p className="text-sm text-muted-foreground">
-              You can safely disable your interenet - Your files never leave your computer or touch a server.
+              You can safely disable your interenet - Your files never leave
+              your computer or touch a server.
             </p>
           </div>
         </div>
