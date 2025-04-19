@@ -109,18 +109,18 @@ const Hero = ({ loading }: { loading: boolean }) => {
           </div>
           <div className="text-lg text-muted-foreground">
             <p className="hidden sm:block">
-              Clean your files of hidden metadata without ever uploading them.
+              Clean hidden data from your files, right in your browser.
             </p>
             <p className="hidden sm:block">
-              Runs fully in your browser. Open Source. Private by design.
+              No uploads. No tracking. Open source. Private by design.
             </p>
             <p className="sm:hidden">Clean your files of hidden metadata.</p>
-            <p className="sm:hidden">Runs fully in your browser.</p>
+            <p className="sm:hidden">No uploads. No tracking. Open source.</p>
           </div>
           <div className="flex gap-[var(--space-sm)]">
-            <Badge>Private</Badge>
-            <Badge>Open source</Badge>
-            <Badge>Works offline</Badge>
+            <Badge>Private 🔐</Badge>
+            <Badge>Open source 💻</Badge>
+            <Badge>Works offline 🛡️</Badge>
           </div>
         </div>
       )}
@@ -210,6 +210,8 @@ export default function Home() {
   const handleMetadataRemoval = async () => {
     setProcessing(true);
 
+    await new Promise((res) => setTimeout(res, 1000));
+
     try {
       const cleanedFiles: File[] = [];
 
@@ -277,8 +279,7 @@ export default function Home() {
         <AlertDialogHeader>
           <AlertDialogTitle>Clear all files?</AlertDialogTitle>
           <AlertDialogDescription>
-            This will permanently remove all files from your current selection.
-            This action cannot be undone.
+            Are you sure you want to clear all files? This can’t be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
