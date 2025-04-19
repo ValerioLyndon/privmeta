@@ -118,7 +118,7 @@ export default function Dropzone({
           </div>
         </div>
       ) : (
-        <div className="w-full">
+        <div className="w-full" araria-label="File dropzone">
           <div
             onDragOver={(e) => {
               e.preventDefault();

@@ -26,6 +26,7 @@ import {
 import { toast } from "sonner";
 import { Loader2, Lock, WifiOff } from "lucide-react";
 import JSZip from "jszip";
+import Head from "next/head";
 
 type ErrorType =
   | "file_count"
@@ -86,6 +87,14 @@ const showErrorToast = (type: ErrorType) => {
 };
 
 const Hero = ({ loading }: { loading: boolean }) => {
+  <Head>
+    <title>PrivMeta | Clean metadata from images, PDFs & Word docs</title>
+    <meta
+      name="description"
+      content="Remove metadata from your files securely in your browser. No uploads, no tracking. Open source and works offline."
+    />
+    <meta name="robots" content="index, follow" />
+  </Head>;
   return (
     <>
       {loading ? (
