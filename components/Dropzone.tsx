@@ -156,8 +156,8 @@ export default function Dropzone({
                 </span>
               </p>
             </div>
-            <p className="text-muted-foreground">
-              (Accepted types: .jpeg, .png, .webp, .pdf)
+            <p className="text-muted-foreground text-center">
+              (Accepted types: .jpeg, .png, .webp, .pdf, .docx)
             </p>
             {fileStore.length > 0 && (
               <ul className="text-left text-sm font-bold text-muted-foreground">

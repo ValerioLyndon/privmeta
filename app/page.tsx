@@ -93,7 +93,7 @@ const Hero = ({ loading }: { loading: boolean }) => {
           <Skeleton className="h-10 w-3/4" />
           <Skeleton className="h-6 w-1/2" />
           <Skeleton className="h-6 w-1/3" />
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Skeleton className="h-6 w-16 rounded-full" />
             <Skeleton className="h-6 w-16 rounded-full" />
             <Skeleton className="h-6 w-16 rounded-full" />
@@ -101,19 +101,23 @@ const Hero = ({ loading }: { loading: boolean }) => {
         </div>
       ) : (
         <div className="flex flex-col gap-[var(--space-lg)] w-full">
-          <div className="flex gap-[var(--space-lg)] items-center">
-            <h1 className="text-4xl font-bold">Remove metadata privately</h1>
-            <Lock size={32} strokeWidth={3} />
+          <div className="flex gap-[var(--space-lg)] items-center sm:text-start">
+            <h1 className="text-2xl sm:text-4xl font-bold">
+              Remove metadata privately
+            </h1>
+            <Lock size={28} strokeWidth={3} className="hidden sm:inline" />
           </div>
           <div className="text-lg text-muted-foreground">
-            <p>
+            <p className="hidden sm:block">
               Clean your files of hidden metadata without ever uploading them.
             </p>
-            <p>
-              Everything runs in your browser. Open Source. Private by design.
+            <p className="hidden sm:block">
+              Runs fully in your browser. Open Source. Private by design.
             </p>
+            <p className="sm:hidden">Clean your files of hidden metadata.</p>
+            <p className="sm:hidden">Runs fully in your browser.</p>
           </div>
-          <div className="flex gap-[var(--space-md)]">
+          <div className="flex gap-[var(--space-sm)]">
             <Badge>Private</Badge>
             <Badge>Open source</Badge>
             <Badge>Works offline</Badge>
@@ -143,7 +147,7 @@ const DisableInternetSection = ({ loading }: { loading: boolean }) => {
         </div>
       ) : (
         <div className="flex w-full gap-[var(--space-lg)] items-center bg-[var(--accent-secondary)] p-[var(--space-lg)] rounded-md">
-          <WifiOff size={32} strokeWidth={2} />
+          <WifiOff size={32} strokeWidth={2} className="hidden sm:block"/>
           <div>
             <h3 className="font-bold">If you are reading this...</h3>
             <p className="text-sm text-muted-foreground">

@@ -28,7 +28,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function NavMenu() {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="hidden sm:block">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Overview</NavigationMenuTrigger>
