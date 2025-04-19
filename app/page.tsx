@@ -120,7 +120,7 @@ const Hero = ({ loading }: { loading: boolean }) => {
           <div className="flex gap-[var(--space-sm)]">
             <Badge>Private 🔐</Badge>
             <Badge>Open source 💻</Badge>
-            <Badge>Works offline 🛡️</Badge>
+            <Badge>Works offline ⛔</Badge>
           </div>
         </div>
       )}

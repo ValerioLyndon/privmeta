@@ -12,8 +12,14 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import Image from "next/image";
 
-const components: { title: string; href: string; description: string }[] = [
+const components: {
+  title: string;
+  href: string;
+  description: string;
+  comingSoon?: boolean;
+}[] = [
   {
     title: "PrivMeta",
     href: "/",
@@ -23,6 +29,7 @@ const components: { title: string; href: string; description: string }[] = [
     title: "PrivRedact",
     href: "/",
     description: "A private platform for redacting PDF files.",
+    comingSoon: true,
   },
 ];
 
@@ -40,25 +47,40 @@ export function NavMenu() {
                     href="/"
                     className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                   >
+                    <Image
+                      src="/PrivMetaLogoIconLightMode.png"
+                      alt="PrivMeta Logo Icon"
+                      width={214}
+                      height={64}
+                      className="w-12 h-auto dark:hidden"
+                    />
+                    <Image
+                      src="/PrivMetaLogoIconDarkMode.png"
+                      alt="PrivMeta Logo Icon"
+                      width={214}
+                      height={64}
+                      className="w-12 h-auto hidden dark:inline"
+                    />
                     <div className="mb-2 mt-4 text-lg font-medium">
                       PrivMeta
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      A fully private platform to remove hidden metadata from
-                      your files. Metadata is stripped in browser meaning your
-                      file never leaves your computer.
+                      A fully private tool to remove hidden metadata from your
+                      files. Everything happens locally in your browser — your
+                      files never leave your device.
                     </p>
                   </Link>
                 </NavigationMenuLink>
               </li>
               <ListItem title="Private">
-                Your files never leave your computer. Built for privacy.
+                Files are processed entirely in your browser — nothing is
+                uploaded.
               </ListItem>
               <ListItem title="Open source">
-                Source code available on Github.
+                Fully open source — view or audit the code on GitHub.
               </ListItem>
               <ListItem title="Free">
-                PrivMeta is committed to staying a free resource.
+                Always free to use — no accounts, no tracking.
               </ListItem>
             </ul>
           </NavigationMenuContent>
@@ -66,12 +88,13 @@ export function NavMenu() {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Products</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[200px] gap-3 p-4 md:w-[250px] md:grid-cols-1 lg:w-[300px] ">
+            <ul className="grid w-[200px] gap-3 p-4 md:w-[250px] md:grid-cols-1 lg:w-[300px]">
               {components.map((component) => (
                 <ListItem
                   key={component.title}
                   title={component.title}
                   href={component.href}
+                  comingSoon={component.comingSoon}
                 >
                   {component.description}
                 </ListItem>
@@ -86,16 +109,22 @@ export function NavMenu() {
 
 const ListItem = React.forwardRef<
   React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<"a"> & { comingSoon?: boolean }
+>(({ className, title, children, comingSoon = false, ...props }, ref) => {
   return (
-    <li>
+    <li className="relative">
+      {comingSoon && (
+        <div className="absolute top-2 right-2 z-10 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground backdrop-blur">
+          Coming soon
+        </div>
+      )}
       <NavigationMenuLink asChild>
         <a
           ref={ref}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className
+            className,
+            comingSoon && "pointer-events-none opacity-60"
           )}
           {...props}
         >

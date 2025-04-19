@@ -143,16 +143,16 @@ export default function Dropzone({
             />
             <File size={64} strokeWidth={2} />
             <div className="flex flex-col items-center text-lg text-muted-foreground">
-              <p>Drag & drop</p>
+              <p>Drag & drop files</p>
               <p>
                 or{" "}
                 <span className="text-[var(--dropzone-primary)] font-bold hover:underline">
-                  browse
+                  click to browse
                 </span>
               </p>
             </div>
             <p className="text-muted-foreground text-center">
-              (Accepted types: {getFileExtensions()})
+              (Supported file types: {getFileExtensions()})
             </p>
             {fileStore.length > 0 && (
               <ul className="text-left text-sm font-bold text-muted-foreground">
