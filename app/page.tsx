@@ -26,7 +26,8 @@ type ErrorType =
   | "file_count"
   | "unsupported_format"
   | "file_too_large"
-  | "general";
+  | "general"
+  | "dropzone_error";
 
 const renameWithSuffix = (file: File, suffix = "_cleaned"): string => {
   const nameParts = file.name.split(".");
@@ -41,6 +42,8 @@ const showErrorToast = (type: ErrorType) => {
     "file_count",
     "unsupported_format",
     "file_too_large",
+    "general",
+    "dropzone_error",
   ];
 
   const messages = {
@@ -59,6 +62,10 @@ const showErrorToast = (type: ErrorType) => {
     general: {
       title: "Something went wrong",
       description: "An error occurred while processing your files.",
+    },
+    dropzone_error: {
+      title: "Something went wrong",
+      description: "An error occurred while queuing your files.",
     },
   };
 

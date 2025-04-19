@@ -10,7 +10,9 @@ type DropzoneProps = {
   fileStore: File[];
   onFilesAccepted: (files: File[]) => void;
   onFileRemove: (index: number) => void;
-  onError: (type: "unsupported_format" | "file_too_large") => void;
+  onError: (
+    type: "unsupported_format" | "file_too_large" | "dropzone_error"
+  ) => void;
   loading: boolean;
 };
 
@@ -36,46 +38,72 @@ export default function Dropzone({
   const isAcceptedType = (file: File) => acceptedMimeTypes.includes(file.type);
   const isAcceptedSize = (file: File) => file.size <= MAX_FILE_SIZE_BYTES;
 
+  const hasValidExtension = (file: File) => {
+    const exts = acceptedTypes[file.type] || [];
+    return exts.some((ext) => file.name.toLowerCase().endsWith(ext));
+  };
+
   const handleFiles = useCallback(
     (files: FileList | File[]) => {
-      const newFiles: File[] = [];
+      try {
+        const fileArray = Array.from(files); // Normalize FileList or File[] to a true array
+        const newFiles: File[] = [];
 
-      for (const file of files) {
-        if (!isAcceptedType(file)) {
-          onError("unsupported_format");
-          return;
+        for (const file of fileArray) {
+          if (!isAcceptedType(file) || !hasValidExtension(file)) {
+            onError("unsupported_format");
+            return;
+          }
+
+          if (!isAcceptedSize(file)) {
+            onError("file_too_large");
+            return;
+          }
+
+          newFiles.push(file);
         }
-        if (!isAcceptedSize(file)) {
-          onError("file_too_large");
-          return;
+
+        if (newFiles.length > 0) {
+          onFilesAccepted(newFiles);
         }
-        newFiles.push(file);
-      }
 
-      if (newFiles.length > 0) {
-        onFilesAccepted(newFiles);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      } catch (error) {
+        console.error(error);
+        onError("dropzone_error");
       }
-
-      if (fileInputRef.current) fileInputRef.current.value = "";
     },
     [onError, onFilesAccepted]
   );
 
   const handleDrop = useCallback(
     (e: React.DragEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      setHighlight(false);
-      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-        handleFiles(e.dataTransfer.files);
-        e.dataTransfer.clearData();
+      try {
+        e.preventDefault();
+        setHighlight(false);
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          handleFiles(e.dataTransfer.files);
+          e.dataTransfer.clearData();
+        }
+      } catch (error) {
+        console.log(error);
+        onError("dropzone_error");
       }
     },
-    [handleFiles]
+    [onError, handleFiles]
   );
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) handleFiles(e.target.files);
-  };
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      try {
+        if (e.target.files) handleFiles(e.target.files);
+      } catch (error) {
+        console.log(error);
+        onError("dropzone_error");
+      }
+    },
+    [onError, handleFiles]
+  );
 
   return (
     <>

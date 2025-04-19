@@ -11,21 +11,18 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "PrivMeta",
     href: "/",
-    description:
-      "A private platform for stripping files of hidden metadata.",
+    description: "A private platform for stripping files of hidden metadata.",
   },
   {
     title: "PrivRedact",
     href: "/",
-    description:
-      "A private platform for redacting PDF files.",
+    description: "A private platform for redacting PDF files.",
   },
 ];
 
@@ -47,7 +44,9 @@ export function NavMenu() {
                       PrivMeta
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      A fully private platform to remove hidden metadata from your files. Metadata is stripped in browser meaning your file never leaves your computer.
+                      A fully private platform to remove hidden metadata from
+                      your files. Metadata is stripped in browser meaning your
+                      file never leaves your computer.
                     </p>
                   </Link>
                 </NavigationMenuLink>
@@ -79,13 +78,6 @@ export function NavMenu() {
               ))}
             </ul>
           </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink asChild>
-            <Link href="/docs" className={navigationMenuTriggerStyle()}>
-              Source code
-            </Link>
-          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
