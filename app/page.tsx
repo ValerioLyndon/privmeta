@@ -253,7 +253,7 @@ export default function Home() {
         URL.revokeObjectURL(url);
       }
 
-      toast.success("Download ready");
+      toast.success("Download ready ✨");
     } catch (error) {
       console.error("Error during metadata removal:", error);
       showErrorToast("general");

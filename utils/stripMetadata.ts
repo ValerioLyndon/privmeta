@@ -56,26 +56,43 @@ export async function stripPdfMetadata(file: File): Promise<File | null> {
   return new File([newPdfBytes], file.name, { type: "application/pdf" });
 }
 
+let cachedJSZip: typeof import("jszip") | null = null;
+
 export async function stripDocxMetadata(file: File): Promise<File | null> {
   try {
-    const JSZip = (await import("jszip")).default;
-    const zip = await JSZip.loadAsync(file);
-    const metadataFiles = [
+    if (!file.name.endsWith(".docx")) {
+      throw new Error("Unsupported file type. Only .docx files are allowed.");
+    }
+
+    if (!cachedJSZip) {
+      cachedJSZip = (await import("jszip")).default;
+    }
+
+    const zip = await cachedJSZip.loadAsync(file);
+
+    if (!zip.file("word/document.xml")) {
+      throw new Error("Invalid DOCX file structure.");
+    }
+
+    const metadataPaths = [
       "docProps/core.xml",
       "docProps/app.xml",
       "docProps/custom.xml",
     ];
 
-    metadataFiles.forEach((path) => {
+    for (const path of metadataPaths) {
       if (zip.file(path)) {
-        zip.remove(path); // strip known metadata files
+        zip.remove(path);
       }
-    });
+    }
 
     const cleanedBlob = await zip.generateAsync({ type: "blob" });
-    return new File([cleanedBlob], file.name, { type: file.type });
+
+    return new File([cleanedBlob], file.name, {
+      type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    });
   } catch (err) {
-    console.error("Failed to strip metadata from DOCX:", err);
+    console.error(`Failed to strip metadata from DOCX (${file.name}):`, err);
     return null;
   }
 }
