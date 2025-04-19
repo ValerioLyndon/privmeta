@@ -33,36 +33,42 @@ export default function Dropzone({
   const isAcceptedType = (file: File) => acceptedMimeTypes.includes(file.type);
   const isAcceptedSize = (file: File) => file.size <= MAX_FILE_SIZE_BYTES;
 
-  const handleFiles = (files: FileList | File[]) => {
-    const newFiles: File[] = [];
+  const handleFiles = useCallback(
+    (files: FileList | File[]) => {
+      const newFiles: File[] = [];
 
-    for (const file of files) {
-      if (!isAcceptedType(file)) {
-        onError("unsupported_format");
-        return;
+      for (const file of files) {
+        if (!isAcceptedType(file)) {
+          onError("unsupported_format");
+          return;
+        }
+        if (!isAcceptedSize(file)) {
+          onError("file_too_large");
+          return;
+        }
+        newFiles.push(file);
       }
-      if (!isAcceptedSize(file)) {
-        onError("file_too_large");
-        return;
+
+      if (newFiles.length > 0) {
+        onFilesAccepted(newFiles);
       }
-      newFiles.push(file);
-    }
 
-    if (newFiles.length > 0) {
-      onFilesAccepted(newFiles);
-    }
+      if (fileInputRef.current) fileInputRef.current.value = "";
+    },
+    [onError, onFilesAccepted]
+  );
 
-    if (fileInputRef.current) fileInputRef.current.value = "";
-  };
-
-  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setHighlight(false);
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      handleFiles(e.dataTransfer.files);
-      e.dataTransfer.clearData();
-    }
-  }, []);
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      setHighlight(false);
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        handleFiles(e.dataTransfer.files);
+        e.dataTransfer.clearData();
+      }
+    },
+    [handleFiles]
+  );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) handleFiles(e.target.files);
@@ -78,8 +84,11 @@ export default function Dropzone({
         onDragLeave={() => setHighlight(false)}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className={`relative flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl cursor-pointer transition-colors ${highlight ? "border-orange-400 bg-blue-50" : "border-muted-foreground/50"
-          }`}
+        className={`relative flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl cursor-pointer transition-colors ${
+          highlight
+            ? "border-orange-400 bg-blue-50"
+            : "border-muted-foreground/50"
+        }`}
       >
         <input
           ref={fileInputRef}
@@ -93,7 +102,10 @@ export default function Dropzone({
         <div className="flex flex-col items-center text-lg text-muted-foreground">
           <p>Drag & drop</p>
           <p>
-            or <span className="text-orange-400 font-bold hover:underline">browse</span>
+            or{" "}
+            <span className="text-orange-400 font-bold hover:underline">
+              browse
+            </span>
           </p>
         </div>
         <p className="text-muted-foreground">
@@ -102,8 +114,15 @@ export default function Dropzone({
         {fileStore.length > 0 && (
           <ul className="text-left text-sm font-bold text-muted-foreground">
             {fileStore.map((file, index) => (
-              <li key={index} className="truncate flex items-center gap-[var(--space-sm)]">
-                <File className="mr-[var(--space-sm)]" size={20} strokeWidth={2} />
+              <li
+                key={index}
+                className="truncate flex items-center gap-[var(--space-sm)]"
+              >
+                <File
+                  className="mr-[var(--space-sm)]"
+                  size={20}
+                  strokeWidth={2}
+                />
                 <p className="truncate">{file.name}</p>
                 <Button
                   onClick={(e) => {
