@@ -3,7 +3,12 @@
 import React, { useCallback, useRef, useState } from "react";
 import { File, X } from "lucide-react";
 import { Button } from "./ui/button";
-import { MAX_FILE_SIZE_BYTES, MAX_FILE_COUNT } from "@/utils/constants";
+import {
+  MAX_FILE_SIZE_BYTES,
+  MAX_FILE_COUNT,
+  ACCEPTED_FILE_TYPES,
+} from "@/utils/constants";
+import { getFileExtensions } from "@/utils/utils";
 import { Skeleton } from "./ui/skeleton";
 
 type DropzoneProps = {
@@ -16,17 +21,7 @@ type DropzoneProps = {
   loading: boolean;
 };
 
-const acceptedTypes: Record<string, string[]> = {
-  "image/jpeg": [".jpeg", ".jpg"],
-  "image/png": [".png"],
-  "image/webp": [".webp"],
-  "application/pdf": [".pdf"],
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
-    ".docx",
-  ],
-};
-
-const acceptedMimeTypes = Object.keys(acceptedTypes);
+const acceptedMimeTypes = Object.keys(ACCEPTED_FILE_TYPES);
 
 export default function Dropzone({
   fileStore,
@@ -42,7 +37,7 @@ export default function Dropzone({
   const isAcceptedSize = (file: File) => file.size <= MAX_FILE_SIZE_BYTES;
 
   const hasValidExtension = (file: File) => {
-    const exts = acceptedTypes[file.type] || [];
+    const exts = ACCEPTED_FILE_TYPES[file.type] || [];
     return exts.some((ext) => file.name.toLowerCase().endsWith(ext));
   };
 
@@ -157,7 +152,7 @@ export default function Dropzone({
               </p>
             </div>
             <p className="text-muted-foreground text-center">
-              (Accepted types: .jpeg, .png, .webp, .pdf, .docx)
+              (Accepted types: {getFileExtensions()})
             </p>
             {fileStore.length > 0 && (
               <ul className="text-left text-sm font-bold text-muted-foreground">

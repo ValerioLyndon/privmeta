@@ -11,6 +11,7 @@ import {
   stripDocxMetadata,
 } from "@/utils/stripMetadata";
 import { MAX_FILE_COUNT, MAX_FILE_SIZE_MB } from "@/utils/constants";
+import { getFileExtensions } from "@/utils/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -53,24 +54,23 @@ const showErrorToast = (type: ErrorType) => {
   const messages = {
     file_count: {
       title: "Too many files",
-      description: `You can only upload up to ${MAX_FILE_COUNT} files.`,
+      description: `You can only upload up to ${MAX_FILE_COUNT} files`,
     },
     unsupported_format: {
       title: "Unsupported file format",
-      description:
-        "Only .jpeg, .png, .webp, .pdf, and .docx files are supported.",
+      description: `Supported file types: ${getFileExtensions()}`,
     },
     file_too_large: {
       title: "File too large",
-      description: `Each file must be under ${MAX_FILE_SIZE_MB}MB.`,
+      description: `Each file must be under ${MAX_FILE_SIZE_MB}MB`,
     },
     general: {
       title: "Something went wrong",
-      description: "An error occurred while processing your files.",
+      description: "An error occurred while processing your files",
     },
     dropzone_error: {
       title: "Something went wrong",
-      description: "An error occurred while queuing your files.",
+      description: "An error occurred while queuing your files",
     },
   };
 
@@ -147,7 +147,7 @@ const DisableInternetSection = ({ loading }: { loading: boolean }) => {
         </div>
       ) : (
         <div className="flex w-full gap-[var(--space-lg)] items-center bg-[var(--accent-secondary)] p-[var(--space-lg)] rounded-md">
-          <WifiOff size={32} strokeWidth={2} className="hidden sm:block"/>
+          <WifiOff size={32} strokeWidth={2} className="hidden sm:block" />
           <div>
             <h3 className="font-bold">If you are reading this...</h3>
             <p className="text-sm text-muted-foreground">
@@ -172,7 +172,7 @@ export default function Home() {
         id: "offline-mode",
         duration: 10000,
         description:
-          "This app runs entirely in your browser and never uploads your files.",
+          "This app runs entirely in your browser and never uploads your files",
         action: {
           label: "Got it",
           onClick: () => {},
