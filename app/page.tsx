@@ -5,7 +5,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import Dropzone from "@/components/Dropzone";
 import { useState, useEffect } from "react";
-import { stripImageMetadata, stripPdfMetadata } from "@/utils/stripMetadata";
+import {
+  stripImageMetadata,
+  stripPdfMetadata,
+  stripDocxMetadata,
+} from "@/utils/stripMetadata";
 import { MAX_FILE_COUNT, MAX_FILE_SIZE_MB } from "@/utils/constants";
 import {
   AlertDialog,
@@ -53,7 +57,8 @@ const showErrorToast = (type: ErrorType) => {
     },
     unsupported_format: {
       title: "Unsupported file format",
-      description: "Only .jpeg, .png, .webp, and .pdf files are supported.",
+      description:
+        "Only .jpeg, .png, .webp, .pdf, and .docx files are supported.",
     },
     file_too_large: {
       title: "File too large",
@@ -211,11 +216,15 @@ export default function Home() {
           cleaned = await stripImageMetadata(file);
         } else if (file.type === "application/pdf") {
           cleaned = await stripPdfMetadata(file);
+        } else if (
+          file.type ===
+          "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ) {
+          cleaned = await stripDocxMetadata(file);
         } else {
           showErrorToast("unsupported_format");
           continue;
         }
-
         if (cleaned) {
           const renamed = new File([cleaned], renameWithSuffix(file), {
             type: cleaned.type,

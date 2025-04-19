@@ -55,3 +55,27 @@ export async function stripPdfMetadata(file: File): Promise<File | null> {
   const newPdfBytes = await pdfDoc.save();
   return new File([newPdfBytes], file.name, { type: "application/pdf" });
 }
+
+export async function stripDocxMetadata(file: File): Promise<File | null> {
+  try {
+    const JSZip = (await import("jszip")).default;
+    const zip = await JSZip.loadAsync(file);
+    const metadataFiles = [
+      "docProps/core.xml",
+      "docProps/app.xml",
+      "docProps/custom.xml",
+    ];
+
+    metadataFiles.forEach((path) => {
+      if (zip.file(path)) {
+        zip.remove(path); // strip known metadata files
+      }
+    });
+
+    const cleanedBlob = await zip.generateAsync({ type: "blob" });
+    return new File([cleanedBlob], file.name, { type: file.type });
+  } catch (err) {
+    console.error("Failed to strip metadata from DOCX:", err);
+    return null;
+  }
+}
