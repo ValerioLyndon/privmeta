@@ -19,6 +19,7 @@ type DropzoneProps = {
     type: "unsupported_format" | "file_too_large" | "dropzone_error"
   ) => void;
   loading: boolean;
+  processing: boolean;
 };
 
 const acceptedMimeTypes = Object.keys(ACCEPTED_FILE_TYPES);
@@ -29,6 +30,7 @@ export default function Dropzone({
   onFileRemove,
   onError,
   loading,
+  processing,
 }: DropzoneProps) {
   const [highlight, setHighlight] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -120,18 +122,30 @@ export default function Dropzone({
       ) : (
         <div className="w-full" araria-label="File dropzone">
           <div
-            onDragOver={(e) => {
-              e.preventDefault();
-              setHighlight(true);
-            }}
-            onDragLeave={() => setHighlight(false)}
-            onDrop={handleDrop}
-            onClick={() => fileInputRef.current?.click()}
-            className={`relative flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl cursor-pointer transition-colors ${
+            className={`relative flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl transition-colors ${
               highlight
                 ? "border-[var(--dropzone-primary)] bg-blue-50"
                 : "border-muted-foreground/50"
+            } ${
+              processing ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
             }`}
+            onClick={() => {
+              if (!processing && fileInputRef.current) {
+                fileInputRef.current.click();
+              }
+            }}
+            onDragOver={(e) => {
+              if (!processing) {
+                e.preventDefault();
+                setHighlight(true);
+              }
+            }}
+            onDragLeave={() => {
+              if (!processing) setHighlight(false);
+            }}
+            onDrop={(e) => {
+              if (!processing) handleDrop(e);
+            }}
           >
             <input
               ref={fileInputRef}

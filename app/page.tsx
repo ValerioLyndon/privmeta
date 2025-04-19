@@ -311,6 +311,7 @@ export default function Home() {
         <SeparatorSection />
         <Dropzone
           loading={loading}
+          processing={processing}
           fileStore={fileStore}
           onFilesAccepted={handleFilesAccepted}
           onFileRemove={handleFileRemoved}
