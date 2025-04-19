@@ -84,7 +84,6 @@ const Hero = () => (
     </div>
     <div className="flex gap-[var(--space-md)]">
       <Badge>Private</Badge>
-      <Badge>Free</Badge>
       <Badge>Open source</Badge>
       <Badge>Works offline</Badge>
     </div>
