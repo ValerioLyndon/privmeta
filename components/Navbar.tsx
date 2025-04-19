@@ -30,8 +30,14 @@ const Navbar = () => {
           <NavMenu />
         </div>
         <div className="flex gap-[var(--space-md)]">
-          <Button variant="ghost" size="icon">
-            <Code className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+          <Button variant="ghost" size="icon" asChild>
+            <a
+              href="https://github.com/DScaife/privmeta/tree/master"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Code className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+            </a>
           </Button>
           <ThemeToggle />
         </div>
