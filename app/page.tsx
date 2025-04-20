@@ -126,7 +126,7 @@ const Hero = ({ loading }: { loading: boolean }) => {
             <p className="sm:hidden">Clean your files of hidden metadata.</p>
             <p className="sm:hidden">No uploads. No tracking. Open source.</p>
           </div>
-          <div className="flex gap-[var(--space-sm)]">
+          <div className="flex gap-[var(--space-md)]">
             <Badge>Private 🔐</Badge>
             <Badge>Open source 💻</Badge>
             <Badge>Works offline ⛔</Badge>

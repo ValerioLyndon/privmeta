@@ -124,7 +124,7 @@ export default function Dropzone({
           <div
             className={`relative flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl transition-colors ${
               highlight
-                ? "border-[var(--dropzone-primary)] bg-blue-50"
+                ? "border-[var(--accent-primary)] bg-[var(--accent-secondary)]"
                 : "border-muted-foreground/50"
             } ${
               processing ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
@@ -160,12 +160,12 @@ export default function Dropzone({
               <p>Drag & drop files</p>
               <p>
                 or{" "}
-                <span className="text-[var(--dropzone-primary)] font-bold hover:underline">
+                <span className="text-[var(--accent-primary)] font-bold hover:underline">
                   click to browse
                 </span>
               </p>
             </div>
-            <p className="text-muted-foreground text-center">
+            <p className="text-sm text-muted-foreground text-center">
               (Supported file types: {getFileExtensions()})
             </p>
             {fileStore.length > 0 && (
