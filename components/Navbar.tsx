@@ -1,5 +1,10 @@
 "use client";
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { NavMenu } from "./NavMenu";
@@ -45,20 +50,29 @@ const Navbar = () => {
               Buy me a coffee
             </a>
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            aria-label="View source on GitHub"
-            asChild
-          >
-            <a
-              href="https://github.com/DScaife/privmeta/tree/master"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Code className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
-            </a>
-          </Button>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  aria-label="View source on GitHub"
+                  asChild
+                >
+                  <a
+                    href="https://github.com/DScaife/privmeta/tree/master"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Code className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
+                  </a>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                View source code on GitHub
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <ThemeToggle />
         </div>
       </nav>
