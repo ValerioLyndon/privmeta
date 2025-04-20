@@ -3,7 +3,7 @@
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { NavMenu } from "./NavMenu";
-import { Code } from "lucide-react";
+import { Code, Coffee } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -32,6 +32,19 @@ const Navbar = () => {
           <NavMenu />
         </div>
         <div className="flex gap-[var(--space-md)]">
+          <Button
+            aria-label="Support me on Buy Me a Coffee"
+            className="bg-[var(--coffee-primary)] hover:bg-[var(--coffee-primary)]/90"
+          >
+            <Coffee />
+            <a
+              href="https://buymeacoffee.com/privco"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Buy me a coffee
+            </a>
+          </Button>
           <Button
             variant="ghost"
             size="icon"

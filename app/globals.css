@@ -87,6 +87,7 @@
   --space-3xl: 48px;
   --accent-primary: #0973dc;
   --accent-secondary: #f0f8ff;
+  --coffee-primary: #725146;
 }
 
 .dark {
@@ -123,6 +124,7 @@
   --sidebar-ring: oklch(0.556 0 0);
   --accent-primary: #5896F3;
   --accent-secondary: #000d1f;
+  --coffee-primary: #a17f65;
 }
 
 @layer base {
