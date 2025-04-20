@@ -39,16 +39,19 @@ const Navbar = () => {
         <div className="flex gap-[var(--space-md)]">
           <Button
             aria-label="Support me on Buy Me a Coffee"
-            className="bg-[var(--coffee-primary)] hover:bg-[var(--coffee-primary)]/90"
+            className="relative overflow-hidden text-white"
           >
-            <Coffee />
-            <a
-              href="https://buymeacoffee.com/privco"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Buy me a coffee
-            </a>
+            <span className="absolute inset-0 animate-gradient bg-[length:400%_400%] bg-gradient-to-r from-[#245245] via-[#C57C5C] to-[#CAB796] opacity-90 transition-opacity hover:opacity-100" />
+            <span className="relative z-10 flex items-center gap-2">
+              <Coffee className="w-4 h-4" />
+              <a
+                href="https://buymeacoffee.com/privco"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Buy me a coffee
+              </a>
+            </span>
           </Button>
           <TooltipProvider>
             <Tooltip>
