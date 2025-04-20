@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
 import Head from "next/head";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -63,6 +64,7 @@ export default function RootLayout({
         suppressHydrationWarning
         className="antialiased min-h-screen flex flex-col"
       >
+        <Analytics />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
