@@ -189,10 +189,25 @@ export default function Home() {
       });
     }, 2000);
 
+    const bmcTimeout = setTimeout(() => {
+      toast("Like the app?", {
+        id: "support-bmc",
+        description: "Support this project on Buy Me a Coffee ☕",
+        duration: 10000,
+        action: {
+          label: "Support",
+          onClick: () => {
+            window.open("https://buymeacoffee.com/privco", "_blank");
+          },
+        },
+      });
+    }, 60000);
+
     const loadingTimeout = setTimeout(() => setLoading(false), 1000);
 
     return () => {
       clearTimeout(infoTimeout);
+      clearTimeout(bmcTimeout);
       clearTimeout(loadingTimeout);
     };
   }, []);
