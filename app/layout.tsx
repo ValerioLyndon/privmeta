@@ -1,35 +1,75 @@
-import type { Metadata } from "next";
+import type { Viewport, Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/sonner";
-import Head from "next/head";
 import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#ffffff",
+};
+
 export const metadata: Metadata = {
-  title: "PrivMeta | Free Online Metadata Remover for Images, PDFs & DOCX",
+  title: "PrivMeta — Remove Metadata from Files Instantly",
   description:
-    "Clean metadata from images, PDFs, and DOCX files – all inside your browser. 100% private, no uploads. Open source & works offline.",
+    "PrivMeta is a free and privacy-first tool for removing metadata from your images, PDFs, and documents. No uploads — everything happens locally in your browser.",
   keywords: [
     "metadata remover",
-    "remove metadata",
-    "pdf metadata cleaner",
-    "image metadata tool",
-    "privacy tool",
-    "offline metadata removal",
+    "remove metadata from files",
+    "strip metadata online",
+    "delete metadata",
+    "image metadata remover",
+    "PDF metadata cleaner",
+    "docx metadata removal",
+    "remove EXIF data",
+    "offline metadata tool",
+    "privacy-focused file cleaner",
+    "secure metadata remover",
+    "browser-based metadata stripper",
+    "client-side metadata tool",
+    "metadata removal app",
+    "free privacy tool",
   ],
-  authors: [{ name: "PrivMeta", url: "https://privmeta.app" }],
+  robots: {
+    index: true,
+    follow: true,
+    "max-image-preview": "large",
+    "max-snippet": -1,
+    "max-video-preview": -1,
+    googleBot: "index, follow",
+  },
   openGraph: {
-    title: "PrivMeta - Free Private Metadata Remover",
+    title: "PrivMeta — Remove Metadata from Files Instantly",
     description:
-      "Remove metadata from your files securely in-browser. No server involved. Open source & private.",
-    url: "https://privmeta.app",
+      "Remove metadata from your files without uploading anything. PrivMeta is a free, offline-first tool for maximum privacy.",
+    url: "https://privmeta.com",
     siteName: "PrivMeta",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 628,
+        alt: "PrivMeta - Remove Metadata from Files",
+      },
+    ],
+
     locale: "en_US",
     type: "website",
   },
-  metadataBase: new URL("https://privmeta.app"),
+  twitter: {
+    card: "summary_large_image",
+    title: "PrivMeta — Remove Metadata from Files Instantly",
+    description:
+      "Remove metadata from images, PDFs, and documents. Free, private, and offline. Your files never leave your device.",
+    images: ["/og-image.png"],
+    creator: "@privmeta",
+  },
+  metadataBase: new URL("https://privmeta.com"),
+  authors: [{ name: "PrivMeta" }],
+  creator: "PrivMeta",
 };
 
 export default function RootLayout({
@@ -39,27 +79,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head>
+      <head>
+        <link rel="canonical" href="https://privmeta.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
+              "@type": "WebSite",
               name: "PrivMeta",
-              applicationCategory: "UtilitiesApplication",
-              operatingSystem: "All",
+              url: "https://privmeta.com",
               description:
-                "PrivMeta is a online tool to remove metadata from files like images, PDFs, and DOCX documents—all in your browser.",
-              offers: {
-                "@type": "Offer",
-                price: "0.00",
-                priceCurrency: "USD",
-              },
+                "Remove metadata from files with PrivMeta, a secure, offline-first tool for privacy-conscious users.",
             }),
           }}
         />
-      </Head>
+        <meta name="application-name" content="PrivMeta" />
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="canonical" href="https://privmeta.com/" />
+      </head>
       <body
         suppressHydrationWarning
         className="antialiased min-h-screen flex flex-col"

@@ -87,14 +87,6 @@ const showErrorToast = (type: ErrorType) => {
 };
 
 const Hero = ({ loading }: { loading: boolean }) => {
-  <Head>
-    <title>PrivMeta | Clean metadata from images, PDFs & Word docs</title>
-    <meta
-      name="description"
-      content="Remove metadata from your files securely in your browser. No uploads, no tracking. Open source and works offline."
-    />
-    <meta name="robots" content="index, follow" />
-  </Head>;
   return (
     <>
       {loading ? (
@@ -320,38 +312,98 @@ export default function Home() {
   );
 
   return (
-    <div className="w-full flex justify-center">
-      <div className="w-full max-w-[var(--max-content-width)] px-[var(--space-md)] flex flex-col gap-[var(--space-2xl)] h-full items-center py-[var(--space-2xl)]">
-        <Hero loading={loading} />
-        <SeparatorSection />
-        <Dropzone
-          loading={loading}
-          processing={processing}
-          fileStore={fileStore}
-          onFilesAccepted={handleFilesAccepted}
-          onFileRemove={handleFileRemoved}
-          onError={(type: ErrorType) => showErrorToast(type)}
+    <>
+      <Head>
+        <title>
+          {processing
+            ? "PrivMeta | Cleaning metadata..."
+            : "PrivMeta | Clean metadata from images, PDFs & Word docs"}
+        </title>
+        <meta
+          name="description"
+          content={
+            processing
+              ? "Cleaning metadata from your files securely in your browser. Please wait..."
+              : "Remove metadata from your files securely in your browser. No uploads, no tracking. Open source and works offline."
+          }
         />
-        {loading ? (
-          <div className="w-full flex gap-[var(--space-md)]">
-            <Skeleton className="h-10 w-40" />
-            <Skeleton className="h-10 w-24" />
-          </div>
-        ) : (
-          <div className="w-full flex gap-[var(--space-md)]">
-            <Button
-              disabled={fileStore.length <= 0 || processing}
-              onClick={handleMetadataRemoval}
-            >
-              {processing && <Loader2 className="animate-spin mr-2" />}
-              Remove metadata
-            </Button>
-            <ClearAllButton />
-          </div>
-        )}
-        <SeparatorSection />
-        <DisableInternetSection loading={loading} />
+        <meta name="robots" content="index, follow" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:title"
+          content="PrivMeta | Clean metadata from images, PDFs & Word docs"
+        />
+        <meta
+          property="og:description"
+          content="Remove metadata from your files securely in your browser. No uploads, no tracking. Open source and works offline."
+        />
+        <meta property="og:image" content="/og-image.png" />{" "}
+        <meta property="og:url" content="https://privmeta.com/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="PrivMeta | Clean metadata from images, PDFs & Word docs"
+        />
+        <meta
+          name="twitter:description"
+          content="Remove metadata from your files securely in your browser. No uploads, no tracking. Open source and works offline."
+        />
+        <meta name="twitter:image" content="/og-image.png" />{" "}
+        <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#ffffff" />
+        <link rel="canonical" href="https://privmeta.com/" />
+      </Head>
+      <div className="w-full flex justify-center">
+        <div className="w-full max-w-[var(--max-content-width)] px-[var(--space-md)] flex flex-col gap-[var(--space-2xl)] h-full items-center py-[var(--space-2xl)]">
+          <Hero loading={loading} />
+          <SeparatorSection />
+          <Dropzone
+            loading={loading}
+            processing={processing}
+            fileStore={fileStore}
+            onFilesAccepted={handleFilesAccepted}
+            onFileRemove={handleFileRemoved}
+            onError={(type: ErrorType) => showErrorToast(type)}
+          />
+          {loading ? (
+            <div className="w-full flex gap-[var(--space-md)]">
+              <Skeleton className="h-10 w-40" />
+              <Skeleton className="h-10 w-24" />
+            </div>
+          ) : (
+            <div className="w-full flex gap-[var(--space-md)]">
+              <Button
+                disabled={fileStore.length <= 0 || processing}
+                onClick={handleMetadataRemoval}
+              >
+                {processing && <Loader2 className="animate-spin mr-2" />}
+                Remove metadata
+              </Button>
+              <ClearAllButton />
+            </div>
+          )}
+          <SeparatorSection />
+          <DisableInternetSection loading={loading} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
