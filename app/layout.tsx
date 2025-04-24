@@ -13,7 +13,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "PrivMeta — Remove Metadata from Files Instantly",
+  title: "PrivMeta — Remove Metadata from Files Privately",
   description:
     "PrivMeta is a free and privacy-first tool for removing metadata from your images, PDFs, and documents. No uploads — everything happens locally in your browser.",
   keywords: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     googleBot: "index, follow",
   },
   openGraph: {
-    title: "PrivMeta — Remove Metadata from Files Instantly",
+    title: "PrivMeta — Remove Metadata from Files Privately",
     description:
       "Remove metadata from your files without uploading anything. PrivMeta is a free, offline-first tool for maximum privacy.",
     url: "https://privmeta.com",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PrivMeta — Remove Metadata from Files Instantly",
+    title: "PrivMeta — Remove Metadata from Files Privately",
     description:
       "Remove metadata from images, PDFs, and documents. Free, private, and offline. Your files never leave your device.",
     images: ["/og-image.png"],

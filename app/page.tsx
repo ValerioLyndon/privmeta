@@ -24,7 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Loader2, Lock, WifiOff } from "lucide-react";
+import { Loader2, Lock, WifiOff, CodeXml, ZapOff } from "lucide-react";
 import JSZip from "jszip";
 import Head from "next/head";
 
@@ -119,9 +119,15 @@ const Hero = ({ loading }: { loading: boolean }) => {
             <p className="sm:hidden">No uploads. No tracking. Open source.</p>
           </div>
           <div className="flex gap-[var(--space-md)]">
-            <Badge>Private 🔐</Badge>
-            <Badge>Open source 💻</Badge>
-            <Badge>Works offline ⛔</Badge>
+            <Badge variant="secondary">
+              Private <Lock />
+            </Badge>
+            <Badge variant="secondary">
+              Open source <CodeXml />
+            </Badge>
+            <Badge variant="secondary">
+              Works offline <ZapOff />
+            </Badge>
           </div>
         </div>
       )}
@@ -270,7 +276,7 @@ export default function Home() {
         const url = URL.createObjectURL(zipBlob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "cleaned_files.zip";
+        a.download = "PrivMeta_cleaned.zip";
         a.click();
         URL.revokeObjectURL(url);
       }
