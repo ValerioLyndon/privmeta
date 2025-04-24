@@ -24,7 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Loader2, Lock, WifiOff, CodeXml, ZapOff } from "lucide-react";
+import { Loader2, Lock, WifiOff, CodeXml, Globe } from "lucide-react";
 import JSZip from "jszip";
 import Head from "next/head";
 
@@ -126,7 +126,7 @@ const Hero = ({ loading }: { loading: boolean }) => {
               Open source <CodeXml />
             </Badge>
             <Badge variant="secondary">
-              Works offline <ZapOff />
+              Works offline <Globe />
             </Badge>
           </div>
         </div>
