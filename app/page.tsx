@@ -87,52 +87,37 @@ const showErrorToast = (type: ErrorType) => {
   });
 };
 
-const Hero = ({ loading }: { loading: boolean }) => {
+const Hero = () => {
   return (
-    <>
-      {loading ? (
-        <div className="w-full flex flex-col gap-[var(--space-lg)]">
-          <Skeleton className="h-10 w-3/4" />
-          <Skeleton className="h-6 w-1/2" />
-          <Skeleton className="h-6 w-1/3" />
-          <div className="flex gap-2 flex-wrap">
-            <Skeleton className="h-6 w-16 rounded-full" />
-            <Skeleton className="h-6 w-16 rounded-full" />
-            <Skeleton className="h-6 w-16 rounded-full" />
-          </div>
-        </div>
-      ) : (
-        <div className="flex flex-col gap-[var(--space-lg)] w-full">
-          <div className="flex gap-[var(--space-lg)] items-center sm:text-start">
-            <h1 className="text-2xl sm:text-4xl font-bold">
-              Remove metadata privately
-            </h1>
-            <Lock size={28} strokeWidth={3} className="hidden sm:inline" />
-          </div>
-          <div className="text-lg text-muted-foreground">
-            <p className="hidden sm:block">
-              Clean hidden data from your files, right in your browser.
-            </p>
-            <p className="hidden sm:block">
-              No uploads. No tracking. Open source. Private by design.
-            </p>
-            <p className="sm:hidden">Clean your files of hidden metadata.</p>
-            <p className="sm:hidden">No uploads. No tracking. Open source.</p>
-          </div>
-          <div className="flex gap-[var(--space-md)]">
-            <Badge variant="secondary">
-              Private <Lock />
-            </Badge>
-            <Badge variant="secondary">
-              Open source <CodeXml />
-            </Badge>
-            <Badge variant="secondary">
-              Works offline <Globe />
-            </Badge>
-          </div>
-        </div>
-      )}
-    </>
+    <div className="flex flex-col gap-[var(--space-lg)] w-full">
+      <div className="flex gap-[var(--space-lg)] items-center sm:text-start">
+        <h1 className="text-2xl sm:text-4xl font-bold">
+          Remove metadata privately
+        </h1>
+        <Lock size={28} strokeWidth={3} className="hidden sm:inline" />
+      </div>
+      <div className="text-lg text-muted-foreground">
+        <h2 className="hidden sm:block">
+          Clean hidden data from your files, right in your browser.
+        </h2>
+        <h2 className="hidden sm:block">
+          No uploads. No tracking. Open source. Private by design.
+        </h2>
+        <h2 className="sm:hidden">Clean your files of hidden metadata.</h2>
+        <h2 className="sm:hidden">No uploads. No tracking. Open source.</h2>
+      </div>
+      <div className="flex gap-[var(--space-md)]">
+        <Badge variant="secondary">
+          Private <Lock />
+        </Badge>
+        <Badge variant="secondary">
+          Open source <CodeXml />
+        </Badge>
+        <Badge variant="secondary">
+          Works offline <Globe />
+        </Badge>
+      </div>
+    </div>
   );
 };
 
@@ -383,7 +368,7 @@ export default function Home() {
       </Head>
       <div className="w-full flex justify-center">
         <div className="w-full max-w-[var(--max-content-width)] px-[var(--space-md)] flex flex-col gap-[var(--space-2xl)] h-full items-center py-[var(--space-2xl)]">
-          <Hero loading={loading} />
+          <Hero />
           <SeparatorSection />
           <Dropzone
             loading={loading}
