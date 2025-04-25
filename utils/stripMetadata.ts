@@ -1,4 +1,38 @@
 import { PDFDocument } from "pdf-lib";
+import { FFmpeg } from "@ffmpeg/ffmpeg";
+import { fetchFile } from "@ffmpeg/util";
+
+export async function stripVideoMetadata(file: File): Promise<File | null> {
+  try {
+    if (typeof window === "undefined") return null;
+
+    const ffmpeg = new FFmpeg();
+    await ffmpeg.load();
+
+    // Load the input file into FFmpeg memory
+    await ffmpeg.writeFile("input.mp4", await fetchFile(file));
+
+    // Run the FFmpeg command to remove metadata
+    await ffmpeg.exec([
+      "-i",
+      "input.mp4",
+      "-map_metadata",
+      "-1",
+      "-c",
+      "copy",
+      "output.mp4",
+    ]);
+
+    const data = await ffmpeg.readFile("output.mp4");
+    const blob = new Blob([data], { type: "video/mp4" });
+    const cleanedFile = new File([blob], file.name, { type: "video/mp4" });
+
+    return cleanedFile;
+  } catch (err) {
+    console.error("Video metadata stripping failed:", err);
+    return null;
+  }
+}
 
 export async function stripImageMetadata(file: File): Promise<File | null> {
   return new Promise((resolve) => {
