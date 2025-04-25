@@ -9,23 +9,38 @@ export async function stripVideoMetadata(file: File): Promise<File | null> {
     const ffmpeg = new FFmpeg();
     await ffmpeg.load();
 
-    // Load the input file into FFmpeg memory
-    await ffmpeg.writeFile("input.mp4", await fetchFile(file));
+    const extension = file.name.split(".").pop()?.toLowerCase();
+    if (!extension || !["mp4", "webm", "avi"].includes(extension)) {
+      throw new Error("Unsupported video format");
+    }
 
-    // Run the FFmpeg command to remove metadata
+    const inputFile = `input.${extension}`;
+    const outputFile = `output.${extension}`;
+    const mimeType = file.type || `video/${extension}`;
+
+    await ffmpeg.writeFile(inputFile, await fetchFile(file));
+
     await ffmpeg.exec([
       "-i",
-      "input.mp4",
+      inputFile,
       "-map_metadata",
       "-1",
+      "-metadata",
+      "encoder=",
       "-c",
       "copy",
-      "output.mp4",
+      outputFile,
     ]);
 
-    const data = await ffmpeg.readFile("output.mp4");
-    const blob = new Blob([data], { type: "video/mp4" });
-    const cleanedFile = new File([blob], file.name, { type: "video/mp4" });
+    const data = await ffmpeg.readFile(outputFile);
+    const blob = new Blob([data], { type: mimeType });
+    const cleanedFile = new File(
+      [blob],
+      file.name.replace(/\.[^.]+$/, `_cleaned.${extension}`),
+      {
+        type: mimeType,
+      }
+    );
 
     return cleanedFile;
   } catch (err) {

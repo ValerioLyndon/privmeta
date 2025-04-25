@@ -18,6 +18,5 @@ const ACCEPTED_FILE_TYPES: Record<string, string[]> = {
   ],
   "video/mp4": [".mp4"],
   "video/avi": [".avi"],
-  "video/mkv": [".mkv"],
   "video/webm": [".webm"],
 };
