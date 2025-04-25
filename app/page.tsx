@@ -9,6 +9,7 @@ import {
   stripImageMetadata,
   stripPdfMetadata,
   stripDocxMetadata,
+  stripVideoMetadata,
 } from "@/utils/stripMetadata";
 import { MAX_FILE_COUNT, MAX_FILE_SIZE_MB } from "@/utils/constants";
 import { getFileExtensions } from "@/utils/utils";
@@ -249,10 +250,13 @@ export default function Home() {
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         ) {
           cleaned = await stripDocxMetadata(file);
+        } else if (file.type.startsWith("video/")) {
+          cleaned = await stripVideoMetadata(file);
         } else {
           showErrorToast("unsupported_format");
           continue;
         }
+
         if (cleaned) {
           const renamed = new File([cleaned], renameWithSuffix(file), {
             type: cleaned.type,
