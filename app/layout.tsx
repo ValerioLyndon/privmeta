@@ -15,7 +15,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "PrivMeta — Remove Metadata from Files Privately",
   description:
-    "PrivMeta is a free and privacy-first tool for removing metadata from your images, PDFs, and documents. No uploads — everything happens locally in your browser.",
+    "PrivMeta is a free, privacy-first tool for removing metadata from images, PDFs, and documents. No uploads — everything happens locally in your browser.",
   keywords: [
     "metadata remover",
     "remove metadata from files",
@@ -80,7 +80,6 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="canonical" href="https://privmeta.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -96,12 +95,25 @@ export default function RootLayout({
         />
         <meta name="application-name" content="PrivMeta" />
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/apple-touch-icon.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#ffffff" />
-        <link rel="canonical" href="https://privmeta.com/" />
       </head>
       <body
         suppressHydrationWarning
