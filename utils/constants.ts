@@ -16,4 +16,7 @@ const ACCEPTED_FILE_TYPES: Record<string, string[]> = {
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
     ".docx",
   ],
+  "video/mp4": [".mp4"],
+  "video/avi": [".avi"],
+  "video/webm": [".webm"],
 };
