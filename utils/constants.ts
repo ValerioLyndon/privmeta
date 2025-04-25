@@ -6,7 +6,7 @@ export {
 };
 
 const MAX_FILE_COUNT = 10;
-const MAX_FILE_SIZE_MB = 10;
+const MAX_FILE_SIZE_MB = 100;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 const ACCEPTED_FILE_TYPES: Record<string, string[]> = {
   "image/jpeg": [".jpeg", ".jpg"],
