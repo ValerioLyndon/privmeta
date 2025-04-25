@@ -379,12 +379,13 @@ export default function Home() {
             onError={(type: ErrorType) => showErrorToast(type)}
           />
           {loading ? (
-            <div className="w-full flex gap-[var(--space-md)]">
+            <div className="w-full flex justify-end gap-[var(--space-md)]">
               <Skeleton className="h-10 w-40" />
               <Skeleton className="h-10 w-24" />
             </div>
           ) : (
-            <div className="w-full flex gap-[var(--space-md)]">
+            <div className="w-full flex justify-end gap-[var(--space-md)]">
+              <ClearAllButton />
               <Button
                 disabled={fileStore.length <= 0 || processing}
                 onClick={handleMetadataRemoval}
@@ -392,7 +393,6 @@ export default function Home() {
                 {processing && <Loader2 className="animate-spin mr-2" />}
                 Remove metadata
               </Button>
-              <ClearAllButton />
             </div>
           )}
           <SeparatorSection />
