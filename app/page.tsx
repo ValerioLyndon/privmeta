@@ -333,7 +333,7 @@ export default function Home() {
           content="Remove metadata from your files securely in your browser. No uploads, no tracking. Open source and works offline."
         />
         <meta property="og:image" content="/og-image.png" />{" "}
-        <meta property="og:url" content="https://privmeta.com/" />
+        <meta property="og:url" content="https://www.privmeta.com/" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta
           name="twitter:title"

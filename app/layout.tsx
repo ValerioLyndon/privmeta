@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: "PrivMeta — Remove Metadata from Files Privately",
     description:
       "Remove metadata from your files without uploading anything. PrivMeta is a free, offline-first tool for maximum privacy.",
-    url: "https://privmeta.com",
+    url: "https://www.privmeta.com/",
     siteName: "PrivMeta",
     images: [
       {
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
     creator: "@privmeta",
   },
-  metadataBase: new URL("https://privmeta.com"),
+  metadataBase: new URL("https://www.privmeta.com/"),
   authors: [{ name: "PrivMeta" }],
   creator: "PrivMeta",
 };
@@ -83,7 +83,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="canonical" href="https://privmeta.com/" />
+        <link rel="canonical" href="https://www.privmeta.com/" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -91,7 +91,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebSite",
               name: "PrivMeta",
-              url: "https://privmeta.com",
+              url: "https://www.privmeta.com/",
               description:
                 "Remove metadata from files with PrivMeta, a secure, offline-first tool for privacy-conscious users.",
             }),
