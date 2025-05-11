@@ -364,7 +364,6 @@ export default function Home() {
         />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#ffffff" />
-        <link rel="canonical" href="https://privmeta.com/" />
       </Head>
       <div className="w-full flex justify-center">
         <div className="w-full max-w-[var(--max-content-width)] px-[var(--space-md)] flex flex-col gap-[var(--space-2xl)] h-full items-center py-[var(--space-2xl)]">

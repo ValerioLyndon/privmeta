@@ -1,0 +1,26 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.privmeta.com"
+        }
+      ],
+      "destination": "https://privmeta.com/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "privmeta.com"
+        }
+      ],
+      "destination": "https://privmeta.com/$1",
+      "permanent": true
+    }
+  ]
+}
