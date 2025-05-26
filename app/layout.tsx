@@ -46,8 +46,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "PrivMeta — Remove Metadata from Files Privately",
-    description:
-      "Remove metadata from your files without uploading anything. PrivMeta is a free, offline-first tool for maximum privacy.",
+    description: "Remove metadata from your files without uploading anything. PrivMeta is a free, offline-first tool for maximum privacy.",
     url: "https://www.privmeta.com/",
     siteName: "PrivMeta",
     images: [
@@ -65,8 +64,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "PrivMeta — Remove Metadata from Files Privately",
-    description:
-      "Remove metadata from images, PDFs, and documents. Free, private, and offline. Your files never leave your device.",
+    description: "Remove metadata from images, PDFs, and documents. Free, private, and offline. Your files never leave your device.",
     images: ["/og-image.png"],
     creator: "@privmeta",
   },
@@ -85,6 +83,15 @@ export default function RootLayout({
       <head>
         <link rel="canonical" href="https://www.privmeta.com/" />
         <script
+          src="https://buglet.vercel.app/buglet.js"
+          data-position="bottom-left"
+          data-size="medium"
+          data-primary-color="red"
+          data-allowed-paths="/"
+          data-config-id="eixyyn1xgjyKsuZti7J1"
+          defer
+        ></script>
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
@@ -92,44 +99,21 @@ export default function RootLayout({
               "@type": "WebSite",
               name: "PrivMeta",
               url: "https://www.privmeta.com/",
-              description:
-                "Remove metadata from files with PrivMeta, a secure, offline-first tool for privacy-conscious users.",
+              description: "Remove metadata from files with PrivMeta, a secure, offline-first tool for privacy-conscious users.",
             }),
           }}
         />
         <meta name="application-name" content="PrivMeta" />
         <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#ffffff" />
       </head>
-      <body
-        suppressHydrationWarning
-        className="antialiased min-h-screen flex flex-col"
-      >
+      <body suppressHydrationWarning className="antialiased min-h-screen flex flex-col">
         <Analytics />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <div className="flex flex-col flex-1">
             <Navbar />
             <main className="flex-1">{children}</main>

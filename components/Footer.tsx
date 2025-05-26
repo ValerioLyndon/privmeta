@@ -6,12 +6,7 @@ const Footer = () => {
       <div className="flex justify-between items-center w-full max-w-[var(--max-content-width)] px-[var(--space-md)] h-14">
         <p className="text-xs sm:text-base">
           Built for privacy. The source code is available on{" "}
-          <a
-            className="underline"
-            href="https://github.com/DScaife/privmeta/tree/master"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a className="underline" href="https://github.com/DScaife/privmeta/tree/master" target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
           .

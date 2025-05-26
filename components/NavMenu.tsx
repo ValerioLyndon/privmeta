@@ -61,27 +61,17 @@ export function NavMenu() {
                       height={64}
                       className="w-12 h-auto hidden dark:inline"
                     />
-                    <div className="mb-2 mt-4 text-lg font-medium">
-                      PrivMeta
-                    </div>
+                    <div className="mb-2 mt-4 text-lg font-medium">PrivMeta</div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                      A fully private tool to remove hidden metadata from your
-                      files. Everything happens locally in your browser — your
+                      A fully private tool to remove hidden metadata from your files. Everything happens locally in your browser — your
                       files never leave your device.
                     </p>
                   </Link>
                 </NavigationMenuLink>
               </li>
-              <ListItem title="Private">
-                Files are processed entirely in your browser — nothing is
-                uploaded.
-              </ListItem>
-              <ListItem title="Open source">
-                Fully open source — view or audit the code on GitHub.
-              </ListItem>
-              <ListItem title="Free">
-                Always free to use — no accounts, no tracking.
-              </ListItem>
+              <ListItem title="Private">Files are processed entirely in your browser — nothing is uploaded.</ListItem>
+              <ListItem title="Open source">Fully open source — view or audit the code on GitHub.</ListItem>
+              <ListItem title="Free">Always free to use — no accounts, no tracking.</ListItem>
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
@@ -90,12 +80,7 @@ export function NavMenu() {
           <NavigationMenuContent>
             <ul className="grid w-[200px] gap-3 p-4 md:w-[250px] md:grid-cols-1 lg:w-[300px]">
               {components.map((component) => (
-                <ListItem
-                  key={component.title}
-                  title={component.title}
-                  href={component.href}
-                  comingSoon={component.comingSoon}
-                >
+                <ListItem key={component.title} title={component.title} href={component.href} comingSoon={component.comingSoon}>
                   {component.description}
                 </ListItem>
               ))}
@@ -107,34 +92,31 @@ export function NavMenu() {
   );
 }
 
-const ListItem = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a"> & { comingSoon?: boolean }
->(({ className, title, children, comingSoon = false, ...props }, ref) => {
-  return (
-    <li className="relative">
-      {comingSoon && (
-        <div className="absolute top-2 right-2 z-10 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground backdrop-blur">
-          Coming soon
-        </div>
-      )}
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-            className,
-            comingSoon && "pointer-events-none opacity-60"
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-            {children}
-          </p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
+const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a"> & { comingSoon?: boolean }>(
+  ({ className, title, children, comingSoon = false, ...props }, ref) => {
+    return (
+      <li className="relative">
+        {comingSoon && (
+          <div className="absolute top-2 right-2 z-10 rounded-full bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground backdrop-blur">
+            Coming soon
+          </div>
+        )}
+        <NavigationMenuLink asChild>
+          <a
+            ref={ref}
+            className={cn(
+              "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+              className,
+              comingSoon && "pointer-events-none opacity-60"
+            )}
+            {...props}
+          >
+            <div className="text-sm font-medium leading-none">{title}</div>
+            <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">{children}</p>
+          </a>
+        </NavigationMenuLink>
+      </li>
+    );
+  }
+);
 ListItem.displayName = "ListItem";

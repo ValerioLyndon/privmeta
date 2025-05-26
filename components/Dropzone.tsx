@@ -3,11 +3,7 @@
 import React, { useCallback, useRef, useState } from "react";
 import { File, X } from "lucide-react";
 import { Button } from "./ui/button";
-import {
-  MAX_FILE_SIZE_BYTES,
-  MAX_FILE_COUNT,
-  ACCEPTED_FILE_TYPES,
-} from "@/utils/constants";
+import { MAX_FILE_SIZE_BYTES, MAX_FILE_COUNT, ACCEPTED_FILE_TYPES } from "@/utils/constants";
 import { getFileExtensions } from "@/utils/utils";
 import { Skeleton } from "./ui/skeleton";
 
@@ -15,23 +11,14 @@ type DropzoneProps = {
   fileStore: File[];
   onFilesAccepted: (files: File[]) => void;
   onFileRemove: (index: number) => void;
-  onError: (
-    type: "unsupported_format" | "file_too_large" | "dropzone_error"
-  ) => void;
+  onError: (type: "unsupported_format" | "file_too_large" | "dropzone_error") => void;
   loading: boolean;
   processing: boolean;
 };
 
 const acceptedMimeTypes = Object.keys(ACCEPTED_FILE_TYPES);
 
-export default function Dropzone({
-  fileStore,
-  onFilesAccepted,
-  onFileRemove,
-  onError,
-  loading,
-  processing,
-}: DropzoneProps) {
+export default function Dropzone({ fileStore, onFilesAccepted, onFileRemove, onError, loading, processing }: DropzoneProps) {
   const [highlight, setHighlight] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -123,12 +110,8 @@ export default function Dropzone({
         <div className="w-full" araria-label="File dropzone">
           <div
             className={`relative flex flex-col items-center justify-center w-full min-h-96 gap-[var(--space-md)] border-3 border-dashed p-[var(--space-2xl)] rounded-xl transition-colors ${
-              highlight
-                ? "border-[var(--accent-primary)] bg-[var(--accent-secondary)]"
-                : "border-muted-foreground/50"
-            } ${
-              processing ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-            }`}
+              highlight ? "border-[var(--accent-primary)] bg-[var(--accent-secondary)]" : "border-muted-foreground/50"
+            } ${processing ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
             onClick={() => {
               if (!processing && fileInputRef.current) {
                 fileInputRef.current.click();
@@ -159,27 +142,15 @@ export default function Dropzone({
             <div className="flex flex-col items-center text-lg text-muted-foreground">
               <p>Drag & drop files</p>
               <p>
-                or{" "}
-                <span className="text-[var(--accent-primary)] font-bold hover:underline">
-                  click to browse
-                </span>
+                or <span className="text-[var(--accent-primary)] font-bold hover:underline">click to browse</span>
               </p>
             </div>
-            <p className="text-sm text-muted-foreground text-center">
-              (Supported file types: {getFileExtensions()})
-            </p>
+            <p className="text-sm text-muted-foreground text-center">(Supported file types: {getFileExtensions()})</p>
             {fileStore.length > 0 && (
               <ul className="text-left text-sm font-bold text-muted-foreground">
                 {fileStore.map((file, index) => (
-                  <li
-                    key={index}
-                    className="truncate flex items-center gap-[var(--space-sm)]"
-                  >
-                    <File
-                      className="mr-[var(--space-sm)]"
-                      size={20}
-                      strokeWidth={2}
-                    />
+                  <li key={index} className="truncate flex items-center gap-[var(--space-sm)]">
+                    <File className="mr-[var(--space-sm)]" size={20} strokeWidth={2} />
                     <p className="truncate">{file.name}</p>
                     <Button
                       onClick={(e) => {

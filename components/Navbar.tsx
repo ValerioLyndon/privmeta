@@ -1,10 +1,5 @@
 "use client";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { NavMenu } from "./NavMenu";
@@ -37,18 +32,14 @@ const Navbar = () => {
           <NavMenu />
         </div>
         <div className="flex gap-[var(--space-md)]">
-          <Button
-            aria-label="Support me on Buy Me a Coffee"
-            className="relative overflow-hidden text-white"
-          >
+          <Button id="customBugletButton">
+            Feedback
+          </Button>
+          <Button aria-label="Support me on Buy Me a Coffee" className="relative overflow-hidden text-white">
             <span className="absolute inset-0 animate-gradient bg-[length:400%_400%] bg-gradient-to-r from-[#245245] via-[#C57C5C] to-[#CAB796] opacity-90 transition-opacity hover:opacity-100" />
             <span className="relative z-10 flex items-center gap-2">
               <Coffee className="w-4 h-4" />
-              <a
-                href="https://buymeacoffee.com/privco"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href="https://buymeacoffee.com/privco" target="_blank" rel="noopener noreferrer">
                 Buy me a coffee
               </a>
             </span>
@@ -56,24 +47,13 @@ const Navbar = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  aria-label="View source on GitHub"
-                  asChild
-                >
-                  <a
-                    href="https://github.com/DScaife/privmeta/tree/master"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                <Button variant="ghost" size="icon" aria-label="View source on GitHub" asChild>
+                  <a href="https://github.com/DScaife/privmeta/tree/master" target="_blank" rel="noopener noreferrer">
                     <Code className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all" />
                   </a>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="bottom">
-                View source code on GitHub
-              </TooltipContent>
+              <TooltipContent side="bottom">View source code on GitHub</TooltipContent>
             </Tooltip>
           </TooltipProvider>
           <ThemeToggle />
