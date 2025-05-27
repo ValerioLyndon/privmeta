@@ -26,6 +26,11 @@ const components: {
     description: "A private platform for stripping files of hidden metadata.",
   },
   {
+    title: "Buglet",
+    href: "https://www.buglet.cc/",
+    description: "Pinpoint feedback to fix bugs faster and delight your users.",
+  },
+  {
     title: "PrivRedact",
     href: "/",
     description: "A private platform for redacting PDF files.",
@@ -104,6 +109,7 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
         <NavigationMenuLink asChild>
           <a
             ref={ref}
+            target={title === "PrivMeta" ? "_self" : "_blank"}
             className={cn(
               "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
               className,
