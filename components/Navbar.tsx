@@ -32,18 +32,25 @@ const Navbar = () => {
           <NavMenu />
         </div>
         <div className="flex gap-[var(--space-md)]">
-          <Button id="customBugletButton">
-            Feedback
-          </Button>
-          <Button aria-label="Support me on Buy Me a Coffee" className="relative overflow-hidden text-white">
-            <span className="absolute inset-0 animate-gradient bg-[length:400%_400%] bg-gradient-to-r from-[#245245] via-[#C57C5C] to-[#CAB796] opacity-90 transition-opacity hover:opacity-100" />
-            <span className="relative z-10 flex items-center gap-2">
-              <Coffee className="w-4 h-4" />
-              <a href="https://buymeacoffee.com/privco" target="_blank" rel="noopener noreferrer">
+          <Button id="customBugletButton">Feedback</Button>
+          <Link href="https://buymeacoffee.com/privco" target="_blank" rel="noopener noreferrer">
+            <Button aria-label="Support me on Buy Me a Coffee" className="relative hidden md:inline overflow-hidden text-white">
+              <span className="absolute inset-0 animate-gradient bg-[length:400%_400%] bg-gradient-to-r from-[#245245] via-[#C57C5C] to-[#CAB796] opacity-90 transition-opacity hover:opacity-100" />
+              <span className="relative z-10 flex items-center gap-2">
+                <Coffee />
                 Buy me a coffee
-              </a>
-            </span>
-          </Button>
+              </span>
+            </Button>
+          </Link>
+
+          <Link href="https://buymeacoffee.com/privco" target="_blank" rel="noopener noreferrer">
+            <Button aria-label="Support me on Buy Me a Coffee" className="relative md:hidden overflow-hidden text-white" size="icon">
+              <span className="absolute inset-0 animate-gradient bg-[length:400%_400%] bg-gradient-to-r from-[#245245] via-[#C57C5C] to-[#CAB796] opacity-90 transition-opacity hover:opacity-100" />
+              <span className="relative z-10 flex items-center gap-2">
+                <Coffee />
+              </span>
+            </Button>
+          </Link>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
