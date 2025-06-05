@@ -32,7 +32,7 @@ const Navbar = () => {
           <NavMenu />
         </div>
         <div className="flex gap-[var(--space-md)]">
-          <Button id="customBugletButton">Feedback</Button>
+          <Button className="buglet-trigger">Feedback</Button>
           <Link href="https://buymeacoffee.com/privco" target="_blank" rel="noopener noreferrer">
             <Button aria-label="Support me on Buy Me a Coffee" className="relative hidden md:inline overflow-hidden text-white">
               <span className="absolute inset-0 animate-gradient bg-[length:400%_400%] bg-gradient-to-r from-[#245245] via-[#C57C5C] to-[#CAB796] opacity-90 transition-opacity hover:opacity-100" />
