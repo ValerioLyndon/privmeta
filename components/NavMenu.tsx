@@ -26,6 +26,11 @@ const components: {
     description: "A private platform for stripping files of hidden metadata.",
   },
   {
+    title: "PixMill",
+    href: "https://www.pixmill.io/",
+    description: "The photo edit marketplace. Make your photos perfect!",
+  },
+  {
     title: "Buglet",
     href: "https://www.buglet.cc/",
     description: "Pinpoint feedback to fix bugs faster and delight your users.",
